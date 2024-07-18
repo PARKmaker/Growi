@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { ThemeProviderContext } from '@/context/ThemeProvider.tsx';
+import { ThemeProviderContext } from '@/context/theme-provider.tsx';
 
 export default function useTheme() {
   const context = useContext(ThemeProviderContext);
@@ -9,5 +9,4 @@ export default function useTheme() {
   }
 
   return context;
-  w;
 }

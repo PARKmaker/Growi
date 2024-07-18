@@ -1,5 +1,5 @@
 const links = [
-  { text: '복리계산기', path: 'tools' },
+  { text: '복리계산기', path: 'tools/compound-calculator' },
   { text: '평수계산기', path: 'tools/area-calculator' },
   { text: '1억 만들기', path: 'tools/make-100m-calculator' },
   { text: '국내 ETF', path: 'investment/ko-etf' },
