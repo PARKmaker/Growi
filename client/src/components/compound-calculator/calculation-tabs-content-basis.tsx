@@ -12,21 +12,52 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx';
-import { Input, NumericInput } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form.tsx';
-import { FormLabelWithInfo } from '@/components/label-with-info.tsx';
+import { Form, FormField } from '@/components/ui/form.tsx';
 import NumericFormItem from '@/components/numeric-form-item.tsx';
+import { deleteCommaAndLastCharacter } from '@/lib/utils.ts';
 
 const formSchema = z.object({
-  'initial-amount': z.coerce
-    .number()
-    .min(1, { message: '값을 입력해주세요.' })
-    .gte(10, { message: '10원 이상부터 가능합니다.' }),
-  username: z.string(),
+  // 'initial-amount': z.coerce
+  //   .number()
+  //   .min(1, { message: '값을 입력해주세요.' })
+  //   .gte(10, { message: '10원 이상부터 가능합니다.' }),
+  'initial-amount': z.preprocess(
+    (value) => {
+      const string = deleteCommaAndLastCharacter(String(value));
+
+      return string.length === 0 ? 0 : Number(string);
+    },
+    z
+      .number()
+      .min(1, { message: '값을 입력해주세요.' })
+      .gte(10, { message: '10원 이상부터 가능합니다.' }),
+  ),
+  'compound-period': z.preprocess(
+    (value) => {
+      const string = deleteCommaAndLastCharacter(String(value));
+
+      return string.length === 0 ? 0 : Number(string);
+    },
+    z
+      .number()
+      .min(1, { message: '값을 입력해주세요.' })
+      .gte(10, { message: '1년 이상부터 가능합니다.' }),
+  ),
+  'compound-rate': z.preprocess(
+    (value) => {
+      const string = deleteCommaAndLastCharacter(String(value));
+
+      return string.length === 0 ? 0 : Number(string);
+    },
+    z
+      .number()
+      .min(1, { message: '값을 입력해주세요.' })
+      .gte(10, { message: '1% 이상부터 가능합니다.' }),
+  ),
 });
 
 export default function CalculationTabsContentBasis() {
@@ -34,7 +65,8 @@ export default function CalculationTabsContentBasis() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       'initial-amount': 1000000,
-      username: '하이',
+      'compound-period': 10,
+      'compound-rate': 5,
     },
   });
 
@@ -72,7 +104,7 @@ export default function CalculationTabsContentBasis() {
                 />
                 <FormField
                   control={form.control}
-                  name="initial-amount"
+                  name="compound-period"
                   render={({ field }) => (
                     <NumericFormItem
                       hoverCardContent={
@@ -90,7 +122,7 @@ export default function CalculationTabsContentBasis() {
                 />
                 <FormField
                   control={form.control}
-                  name="initial-amount"
+                  name="compound-rate"
                   render={({ field }) => (
                     <NumericFormItem
                       hoverCardContent={'복리 기간동안 년간 수익률입니다.'}
@@ -100,7 +132,7 @@ export default function CalculationTabsContentBasis() {
                       maxValue={100}
                       {...field}
                     >
-                      초기금액 (₩)
+                      수익률, 이자률 (%)
                     </NumericFormItem>
                   )}
                 />
@@ -108,50 +140,6 @@ export default function CalculationTabsContentBasis() {
                 <Button type="submit">Submit</Button>
               </form>
             </Form>
-            <div className={'space-y-1'}>
-              <LabelWithInfo
-                htmlFor={'initial-amount'}
-                hoverCardContent={'최초 투자시 투자금을 입력해주세요.\n(시작금액)'}
-                hoverCardFooter={'최대 1억'}
-              >
-                초기금액 (₩)
-              </LabelWithInfo>
-              <NumericInput
-                required={true}
-                defaultValue={1_000_000}
-                value={1_000_000}
-                id={'initial-amount'}
-                suffix={'₩'}
-                maxValue={100_000_000}
-              />
-              <NumericText suffix={'원'} value={1000000} />
-            </div>
-            <div className={'space-y-1'}>
-              <LabelWithInfo
-                htmlFor={'compound-interest-count'}
-                hoverCardContent={'복리 효과를 누릴 기간입니다.\n투자 기간이라고 볼 수 있습니다.'}
-                hoverCardFooter={'최대 50년'}
-              >
-                복리 기간 (년)
-              </LabelWithInfo>
-              <NumericInput
-                defaultValue={10}
-                value={10}
-                id={'compound-interest-count'}
-                suffix={'년'}
-                maxValue={50}
-              />
-            </div>
-            <div className={'space-y-1'}>
-              <LabelWithInfo
-                htmlFor={'rate'}
-                hoverCardContent={'복리 기간동안 년간 수익률입니다.'}
-                hoverCardFooter={'최대 100%'}
-              >
-                수익률, 이자률 (%)
-              </LabelWithInfo>
-              <NumericInput defaultValue={5} value={5} id={'rate'} suffix={'%'} maxValue={100} />
-            </div>
           </CardContent>
           <CardFooter>
             <Button variant={'outline'}>계산하기</Button>
