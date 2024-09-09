@@ -85,11 +85,9 @@ export default function CalculationBasis() {
                             variant={'secondary'}
                             type={'button'}
                             onClick={() => {
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue - value < 0 ? 0 : currentValue - value;
-                              });
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
                             }}
                           >
                             -{value / 10000}만
@@ -99,13 +97,9 @@ export default function CalculationBasis() {
                             variant={'secondary'}
                             type={'button'}
                             onClick={() => {
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue + value > initialAmountVariation.maxValue
-                                  ? initialAmountVariation.maxValue
-                                  : currentValue + value;
-                              });
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
                             }}
                           >
                             +{value / 10000}만
@@ -142,13 +136,11 @@ export default function CalculationBasis() {
                             size={'sm'}
                             variant={'secondary'}
                             type={'button'}
-                            onClick={() =>
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                            onClick={() => {
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue - value < 0 ? 0 : currentValue - value;
-                              })
-                            }
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
+                            }}
                           >
                             -{value}%
                           </Button>
@@ -156,15 +148,11 @@ export default function CalculationBasis() {
                             size={'sm'}
                             variant={'secondary'}
                             type={'button'}
-                            onClick={() =>
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                            onClick={() => {
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue + value > compoundPeriodVariation.maxValue
-                                  ? compoundPeriodVariation.maxValue
-                                  : currentValue + value;
-                              })
-                            }
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
+                            }}
                           >
                             +{value}%
                           </Button>
@@ -198,13 +186,11 @@ export default function CalculationBasis() {
                             size={'sm'}
                             variant={'secondary'}
                             type={'button'}
-                            onClick={() =>
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                            onClick={() => {
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue - value < 0 ? 0 : currentValue - value;
-                              })
-                            }
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
+                            }}
                           >
                             -{value}%
                           </Button>
@@ -212,15 +198,11 @@ export default function CalculationBasis() {
                             size={'sm'}
                             variant={'secondary'}
                             type={'button'}
-                            onClick={() =>
-                              field.onChange((prevValue: string | number) => {
-                                const currentValue = getNumber(String(prevValue));
+                            onClick={() => {
+                              const currentValue = getNumber(String(field.value));
 
-                                return currentValue + value > compoundRateVariation.maxValue
-                                  ? compoundRateVariation.maxValue
-                                  : currentValue + value;
-                              })
-                            }
+                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
+                            }}
                           >
                             +{value}%
                           </Button>
