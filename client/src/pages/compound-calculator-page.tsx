@@ -1,5 +1,5 @@
 import Container from '@/components/container.tsx';
-import { CompoundCalculator } from '@/components/compound-calculator';
+import CompoundCalculator from '@/features/compound-calculator';
 
 export default function CompoundCalculatorPage() {
   return (

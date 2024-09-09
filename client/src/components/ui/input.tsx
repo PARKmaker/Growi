@@ -24,7 +24,7 @@ Input.displayName = 'Input';
 
 // id, value, defaultValue 필수로
 export type NumericInputProps = Required<
-  Pick<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'defaultValue'>
+  Pick<React.InputHTMLAttributes<HTMLInputElement>, 'value'>
 > &
   NumericFormatProps &
   React.InputHTMLAttributes<HTMLInputElement> & {
@@ -32,7 +32,7 @@ export type NumericInputProps = Required<
   };
 
 const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(
-  ({ suffix = '', maxValue, value, defaultValue, ...props }, ref) => {
+  ({ suffix = '', maxValue, value, ...props }, ref) => {
     return (
       <div className={'relative w-full'}>
         <NumericFormat
@@ -41,7 +41,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(
           value={value}
           customInput={Input}
           suffix={suffix}
-          defaultValue={defaultValue}
+          // defaultValue={defaultValue}
           thousandSeparator={true}
           allowNegative={false}
           isAllowed={(values) => {

@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@/context/theme-provider.tsx';
-import { HomeLayout, ToolsLayout } from '@/pages/layout';
+
 import { CompoundCalculatorPage, HomePage, ToolsPage } from '@/pages';
+import { HomeLayout, ToolsLayout } from '@/components/layout';
 
 const router = createBrowserRouter([
   {

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
-import { CalculationResultItem } from '@/components/compound-calculator/index.ts';
+import CalculationResultItem from '@/features/compound-calculator/components/calculation-result-item.tsx';
 
 export default function CalculationResult() {
   return (
