@@ -6,6 +6,8 @@ import {
 } from '@/features/compound-calculator/compound-calculator.const.ts';
 import { getNumber } from '@/features/compound-calculator/compound-calculator.utils.ts';
 
+export type TField = z.infer<typeof formSchema>;
+
 export const formSchema = z.object({
   [INITIAL_AMOUNT]: z.preprocess(
     (value) => getNumber(String(value)),

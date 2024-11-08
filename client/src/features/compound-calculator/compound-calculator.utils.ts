@@ -49,3 +49,5 @@ export const compoundRateVariation = {
   maxValue: 100,
   valueList: [1, 5, 10],
 };
+
+export type amountVariationType = typeof initialAmountVariation;

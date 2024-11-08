@@ -2,7 +2,7 @@
  * 복리계산기 (기본) - 컨텐츠
  * @todo: 2024/07/17 폼 연결
  */
-import { z } from 'zod';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -22,16 +22,19 @@ import {
   COMPOUND_RATE,
   INITIAL_AMOUNT,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
-import { formSchema } from '@/features/compound-calculator/components/calculation-basis-form-schema.ts';
+import {
+  formSchema,
+  TField,
+} from '@/features/compound-calculator/components/calculation-basis-form-schema.ts';
 import {
   compoundPeriodVariation,
   compoundRateVariation,
-  getNumber,
   initialAmountVariation,
 } from '@/features/compound-calculator/compound-calculator.utils.ts';
+import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 
 export default function CalculationBasis() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<TField>({
     resolver: zodResolver(formSchema),
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
@@ -42,7 +45,7 @@ export default function CalculationBasis() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  function onSubmit(values: TField) {
     console.log(values);
   }
 
@@ -76,38 +79,46 @@ export default function CalculationBasis() {
                   >
                     초기금액 (₩)
                   </NumericFormItem>
-                  <div className={'flex justify-end gap-6'}>
-                    {initialAmountVariation.valueList.map((value) => {
-                      return (
-                        <div className={'space-x-2'} key={`variation-${value}`}>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  <ValueButtons
+                    isPercent={false}
+                    field={field}
+                    variation={initialAmountVariation}
+                  />
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
-                            }}
-                          >
-                            -{value / 10000}만
-                          </Button>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  {/*<div className={'flex justify-end gap-6'}>*/}
+                  {/*  {initialAmountVariation.valueList.map((value) => {*/}
+                  {/*    return (*/}
+                  {/*      <div className={'space-x-2'} key={`variation-${value}`}>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            console.log('field.value = ', field.value);*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
-                            }}
-                          >
-                            +{value / 10000}만
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/*            field.onChange(currentValue - value < 0 ? 0 : currentValue - value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          -{value / 10000}만*/}
+                  {/*        </Button>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            console.log('field.value = ', field.value);*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
+
+                  {/*            field.onChange(currentValue + value < 0 ? 0 : currentValue + value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          +{value / 10000}만*/}
+                  {/*        </Button>*/}
+                  {/*      </div>*/}
+                  {/*    );*/}
+                  {/*  })}*/}
+                  {/*</div>*/}
                 </div>
               )}
             />
@@ -128,38 +139,40 @@ export default function CalculationBasis() {
                   >
                     복리 기간 (년)
                   </NumericFormItem>
-                  <div className={'flex justify-end gap-6'}>
-                    {compoundPeriodVariation.valueList.map((value) => {
-                      return (
-                        <div className={'space-x-2'} key={`variation-${value}`}>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  <ValueButtons field={field} variation={compoundPeriodVariation} />
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
-                            }}
-                          >
-                            -{value}%
-                          </Button>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  {/*<div className={'flex justify-end gap-6'}>*/}
+                  {/*  {compoundPeriodVariation.valueList.map((value) => {*/}
+                  {/*    return (*/}
+                  {/*      <div className={'space-x-2'} key={`variation-${value}`}>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
-                            }}
-                          >
-                            +{value}%
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/*            field.onChange(currentValue - value < 0 ? 0 : currentValue - value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          -{value}%*/}
+                  {/*        </Button>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
+
+                  {/*            field.onChange(currentValue + value < 0 ? 0 : currentValue + value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          +{value}%*/}
+                  {/*        </Button>*/}
+                  {/*      </div>*/}
+                  {/*    );*/}
+                  {/*  })}*/}
+                  {/*</div>*/}
                 </div>
               )}
             />
@@ -178,38 +191,39 @@ export default function CalculationBasis() {
                   >
                     수익률, 이자률 (%)
                   </NumericFormItem>
-                  <div className={'flex justify-end gap-6'}>
-                    {compoundRateVariation.valueList.map((value) => {
-                      return (
-                        <div className={'space-x-2'} key={`variation-${value}`}>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  <ValueButtons field={field} variation={compoundRateVariation} />
+                  {/*<div className={'flex justify-end gap-6'}>*/}
+                  {/*  {compoundRateVariation.valueList.map((value) => {*/}
+                  {/*    return (*/}
+                  {/*      <div className={'space-x-2'} key={`variation-${value}`}>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
-                            }}
-                          >
-                            -{value}%
-                          </Button>
-                          <Button
-                            size={'sm'}
-                            variant={'secondary'}
-                            type={'button'}
-                            onClick={() => {
-                              const currentValue = getNumber(String(field.value));
+                  {/*            field.onChange(currentValue - value < 0 ? 0 : currentValue - value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          -{value}%*/}
+                  {/*        </Button>*/}
+                  {/*        <Button*/}
+                  {/*          size={'sm'}*/}
+                  {/*          variant={'secondary'}*/}
+                  {/*          type={'button'}*/}
+                  {/*          onClick={() => {*/}
+                  {/*            const currentValue = getNumber(String(field.value));*/}
 
-                              field.onChange(currentValue - value < 0 ? 0 : currentValue + value);
-                            }}
-                          >
-                            +{value}%
-                          </Button>
-                        </div>
-                      );
-                    })}
-                  </div>
+                  {/*            field.onChange(currentValue + value < 0 ? 0 : currentValue + value);*/}
+                  {/*          }}*/}
+                  {/*        >*/}
+                  {/*          +{value}%*/}
+                  {/*        </Button>*/}
+                  {/*      </div>*/}
+                  {/*    );*/}
+                  {/*  })}*/}
+                  {/*</div>*/}
                 </div>
               )}
             />

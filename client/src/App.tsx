@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@/context/theme-provider.tsx';
 
-import { CompoundCalculatorPage, HomePage, ToolsPage } from '@/pages';
+import { CompoundCalculatorPage, HomePage, KakaoLoginPage, ToolsPage } from '@/pages';
 import { HomeLayout, ToolsLayout } from '@/components/layout';
 
 const router = createBrowserRouter([
@@ -11,6 +11,7 @@ const router = createBrowserRouter([
     errorElement: <div>Home Error</div>,
     children: [
       { index: true, element: <HomePage /> },
+      { path: 'login', element: <KakaoLoginPage /> },
       {
         path: 'tools',
         element: <ToolsLayout />,
