@@ -21,11 +21,13 @@ export default function ValueButtons<T extends keyof TField>({
   isPercent = true,
 }: AmountButtonsProps<T>) {
   return (
-    <div className={'flex justify-end gap-6'}>
+    // <div className={'flex justify-end gap-6'}>
+    <div className={'flex justify-end gap-1 sm:gap-6 lg:justify-between'}>
       {variation.valueList.map((value) => {
         return (
-          <div className={'space-x-2'} key={`variation-${value}`}>
+          <div className={'flex w-1/3 gap-1'} key={`variation-${value}`}>
             <Button
+              className="hidden h-8 w-full sm:block"
               size={'sm'}
               variant={'secondary'}
               type={'button'}
@@ -38,6 +40,7 @@ export default function ValueButtons<T extends keyof TField>({
               -{isPercent ? `${value}%` : `${value / 10000}만`}
             </Button>
             <Button
+              className="h-8 w-full"
               size={'sm'}
               variant={'secondary'}
               type={'button'}
