@@ -21,6 +21,7 @@ import {
   COMPOUND_PERIOD,
   COMPOUND_RATE,
   INITIAL_AMOUNT,
+  TCalculateConst,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
 import {
   formSchema,
@@ -56,14 +57,26 @@ export default function CalculationBasis() {
     console.log(form.getValues(COMPOUND_RATE));
   }
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  function handleFocus() {
-    console.log('zz');
-    if (!inputRef.current) {
+  const initialInputRef = useRef<HTMLInputElement>(null);
+  const periodInputRef = useRef<HTMLInputElement>(null);
+  const rateInputRef = useRef<HTMLInputElement>(null);
+
+  function handleFocus(buttonType: TCalculateConst) {
+    if (!initialInputRef.current || !periodInputRef.current || !rateInputRef.current) {
       return;
     }
 
-    inputRef.current.focus();
+    switch (buttonType) {
+      case INITIAL_AMOUNT:
+        initialInputRef.current.focus();
+        return;
+      case COMPOUND_PERIOD:
+        periodInputRef.current.focus();
+        return;
+      case COMPOUND_RATE:
+        rateInputRef.current.focus();
+        return;
+    }
   }
 
   return (
@@ -87,10 +100,12 @@ export default function CalculationBasis() {
                     maxValue={100_000_000}
                     required={true}
                     {...field}
+                    ref={initialInputRef}
                   >
                     초기금액 (₩)
                   </NumericFormItem>
                   <ValueButtons
+                    onFocusClick={() => handleFocus(INITIAL_AMOUNT)}
                     isPercent={false}
                     field={field}
                     variation={initialAmountVariation}
@@ -112,10 +127,15 @@ export default function CalculationBasis() {
                     maxValue={50}
                     required={true}
                     {...field}
+                    ref={periodInputRef}
                   >
                     복리 기간 (년)
                   </NumericFormItem>
-                  <ValueButtons field={field} variation={compoundPeriodVariation} />
+                  <ValueButtons
+                    onFocusClick={() => handleFocus(COMPOUND_PERIOD)}
+                    field={field}
+                    variation={compoundPeriodVariation}
+                  />
                 </div>
               )}
             />
@@ -131,12 +151,12 @@ export default function CalculationBasis() {
                     maxValue={100}
                     required={true}
                     {...field}
-                    ref={inputRef}
+                    ref={rateInputRef}
                   >
                     수익률, 이자률 (%)
                   </NumericFormItem>
                   <ValueButtons
-                    onClick={handleFocus}
+                    onFocusClick={() => handleFocus(COMPOUND_RATE)}
                     field={field}
                     variation={compoundRateVariation}
                   />

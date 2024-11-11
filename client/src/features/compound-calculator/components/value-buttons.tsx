@@ -16,12 +16,14 @@ type ValueButtonsProps<T extends keyof TField> = {
   field: ControllerRenderProps<TField, T>;
   variation: amountVariationType;
   isPercent?: boolean;
+  onFocusClick: () => void;
 };
 
 export default function ValueButtonsInner<T extends keyof TField>({
   field,
   variation,
   isPercent = true,
+  onFocusClick,
 }: ValueButtonsProps<T>) {
   return (
     // <div className={'flex justify-end gap-6'}>
@@ -38,6 +40,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
                 const currentValue = getNumber(String(field.value));
 
                 field.onChange(currentValue - value < 0 ? 0 : currentValue - value);
+                onFocusClick();
               }}
             >
               -{isPercent ? `${value}%` : `${value / 10000}만`}
@@ -51,6 +54,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
                 const currentValue = getNumber(String(field.value));
 
                 field.onChange(currentValue + value < 0 ? 0 : currentValue + value);
+                onFocusClick();
               }}
             >
               +{isPercent ? `${value}%` : `${value / 10000}만`}
