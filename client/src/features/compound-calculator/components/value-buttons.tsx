@@ -11,7 +11,6 @@ import {
 import { Button } from '@/components/ui/button.tsx';
 import { ControllerRenderProps } from 'react-hook-form';
 import { TField } from './calculation-basis-form-schema.ts';
-import React from 'react';
 
 type ValueButtonsProps<T extends keyof TField> = {
   field: ControllerRenderProps<TField, T>;
@@ -19,7 +18,7 @@ type ValueButtonsProps<T extends keyof TField> = {
   isPercent?: boolean;
 };
 
-function ValueButtonsInner<T extends keyof TField>({
+export default function ValueButtonsInner<T extends keyof TField>({
   field,
   variation,
   isPercent = true,
@@ -62,15 +61,3 @@ function ValueButtonsInner<T extends keyof TField>({
     </div>
   );
 }
-//
-// const ValueButtons = React.forwardRef((props, ref) => (
-//   <ValueButtonsInner {...props} {...ref} />
-// )) as <T extends keyof TField>({
-//   ...props
-// }: React.PropsWithChildren<ValueButtonsProps<T>>) => React.ReactElement;
-
-const ValueButtons = React.forwardRef(ValueButtonsInner) as <T extends keyof TField>(
-  props: ValueButtonsProps<T> & { ref?: React.ForwardedRef<HTMLButtonElement> },
-) => ReturnType<typeof ValueButtonsInner>;
-
-export default ValueButtons;
