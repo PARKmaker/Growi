@@ -32,6 +32,7 @@ import {
   initialAmountVariation,
 } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
+import { useRef } from 'react';
 
 export default function CalculationBasis() {
   const form = useForm<TField>({
@@ -53,6 +54,16 @@ export default function CalculationBasis() {
     console.log(form.getValues(INITIAL_AMOUNT));
     console.log(form.getValues(COMPOUND_PERIOD));
     console.log(form.getValues(COMPOUND_RATE));
+  }
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  function handleFocus() {
+    console.log('zz');
+    if (!inputRef.current) {
+      return;
+    }
+
+    inputRef.current.focus();
   }
 
   return (
@@ -120,10 +131,15 @@ export default function CalculationBasis() {
                     maxValue={100}
                     required={true}
                     {...field}
+                    ref={inputRef}
                   >
                     수익률, 이자률 (%)
                   </NumericFormItem>
-                  <ValueButtons field={field} variation={compoundRateVariation} />
+                  <ValueButtons
+                    onClick={handleFocus}
+                    field={field}
+                    variation={compoundRateVariation}
+                  />
                 </div>
               )}
             />
