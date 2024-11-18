@@ -19,21 +19,22 @@ import NumericFormItem from '@/components/numeric-form-item.tsx';
 
 import {
   COMPOUND_PERIOD,
-  COMPOUND_RATE,
+  INTEREST_RATE,
   INITIAL_AMOUNT,
-  TCalculateConst,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
 import {
   formSchema,
   TField,
 } from '@/features/compound-calculator/components/calculation-basis-form-schema.ts';
 import {
+  calculateCompoundInterestBasic,
   compoundPeriodVariation,
   compoundRateVariation,
   initialAmountVariation,
 } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 import { useRef } from 'react';
+import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 
 export default function CalculationBasis() {
   const form = useForm<TField>({
@@ -43,25 +44,17 @@ export default function CalculationBasis() {
     defaultValues: {
       [INITIAL_AMOUNT]: 1000000,
       [COMPOUND_PERIOD]: 10,
-      [COMPOUND_RATE]: 5,
+      [INTEREST_RATE]: 5,
     },
   });
 
-  function onSubmit(values: TField) {
-    console.log(values);
-  }
-
-  function test() {
-    console.log(form.getValues(INITIAL_AMOUNT));
-    console.log(form.getValues(COMPOUND_PERIOD));
-    console.log(form.getValues(COMPOUND_RATE));
-  }
+  // 금액 증감 버튼 클릭시 input에 포커스 하기 위한 ref
 
   const initialInputRef = useRef<HTMLInputElement>(null);
   const periodInputRef = useRef<HTMLInputElement>(null);
   const rateInputRef = useRef<HTMLInputElement>(null);
 
-  function handleFocus(buttonType: TCalculateConst) {
+  function handleInputFocus(buttonType: TCalculateConst) {
     if (!initialInputRef.current || !periodInputRef.current || !rateInputRef.current) {
       return;
     }
@@ -73,10 +66,24 @@ export default function CalculationBasis() {
       case COMPOUND_PERIOD:
         periodInputRef.current.focus();
         return;
-      case COMPOUND_RATE:
+      case INTEREST_RATE:
         rateInputRef.current.focus();
         return;
     }
+  }
+
+  function onSubmit(values: TField) {
+    const initial = values['initial-amount'] as number;
+    const period = values['compound-period'] as number;
+    const rate = values['interest-rate'] as number;
+
+    if (!initial || !period || !rate) {
+      console.error('값이 없습니다.;;');
+      return;
+    }
+
+    const amounts = calculateCompoundInterestBasic(initial, period, rate);
+    console.log(amounts);
   }
 
   return (
@@ -105,7 +112,7 @@ export default function CalculationBasis() {
                     초기금액 (₩)
                   </NumericFormItem>
                   <ValueButtons
-                    onFocusClick={() => handleFocus(INITIAL_AMOUNT)}
+                    onFocusClick={() => handleInputFocus(INITIAL_AMOUNT)}
                     isPercent={false}
                     field={field}
                     variation={initialAmountVariation}
@@ -132,7 +139,7 @@ export default function CalculationBasis() {
                     복리 기간 (년)
                   </NumericFormItem>
                   <ValueButtons
-                    onFocusClick={() => handleFocus(COMPOUND_PERIOD)}
+                    onFocusClick={() => handleInputFocus(COMPOUND_PERIOD)}
                     field={field}
                     variation={compoundPeriodVariation}
                   />
@@ -141,7 +148,7 @@ export default function CalculationBasis() {
             />
             <FormField
               control={form.control}
-              name={COMPOUND_RATE}
+              name={INTEREST_RATE}
               render={({ field }) => (
                 <div className={'space-y-2'}>
                   <NumericFormItem
@@ -156,7 +163,7 @@ export default function CalculationBasis() {
                     수익률, 이자률 (%)
                   </NumericFormItem>
                   <ValueButtons
-                    onFocusClick={() => handleFocus(COMPOUND_RATE)}
+                    onFocusClick={() => handleInputFocus(INTEREST_RATE)}
                     field={field}
                     variation={compoundRateVariation}
                   />
@@ -164,7 +171,7 @@ export default function CalculationBasis() {
               )}
             />
 
-            <Button type={'submit'} variant={'outline'} onClick={test}>
+            <Button type={'submit'} variant={'outline'}>
               계산하기
             </Button>
           </form>

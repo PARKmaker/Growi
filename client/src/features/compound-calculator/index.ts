@@ -1,3 +1,3 @@
-import CompoundCalculator from '@/features/compound-calculator/components/compound-calculator.tsx';
+import CompoundCalculator from '@/features/compound-calculator/compound-calculator.tsx';
 
 export default CompoundCalculator;

@@ -1,12 +1,12 @@
 // tabs value
 const BASIS = '기본';
-const ACCMULATION = '적립식';
+const ACCUMULATION = '적립식';
 
 // 복리계산기 input name
-const INITIAL_AMOUNT = 'initial-amount';
-const COMPOUND_PERIOD = 'compound-period';
-const COMPOUND_RATE = 'compound-rate';
+const INITIAL_AMOUNT = 'initial-amount'; // 초기 금액
+const COMPOUND_PERIOD = 'compound-period'; // 복리 기간
+const INTEREST_RATE = 'interest-rate'; // 이자율
 
-export type TCalculateConst = typeof INITIAL_AMOUNT | typeof COMPOUND_PERIOD | typeof COMPOUND_RATE;
+const MONTHLY_AMOUNT = 'monthly-amount'; // 월 정릭 금액
 
-export { BASIS, ACCMULATION, INITIAL_AMOUNT, COMPOUND_RATE, COMPOUND_PERIOD };
+export { BASIS, ACCUMULATION, INITIAL_AMOUNT, INTEREST_RATE, COMPOUND_PERIOD, MONTHLY_AMOUNT };
