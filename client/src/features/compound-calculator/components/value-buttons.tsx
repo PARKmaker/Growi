@@ -4,19 +4,18 @@
  * @constructor
  */
 
-import {
-  amountVariationType,
-  getNumber,
-} from '@/features/compound-calculator/compound-calculator.utils.ts';
+import { getNumber } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { ControllerRenderProps } from 'react-hook-form';
 import { TField } from './calculation-basis-form-schema.ts';
+import { TAmountVariation } from '@/features/compound-calculator/compound-calculator.types.ts';
 
 type ValueButtonsProps<T extends keyof TField> = {
   field: ControllerRenderProps<TField, T>;
-  variation: amountVariationType;
+  variation: TAmountVariation;
   isPercent?: boolean;
   onFocusClick: () => void;
+  maxValue: number;
 };
 
 export default function ValueButtonsInner<T extends keyof TField>({
@@ -24,6 +23,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
   variation,
   isPercent = true,
   onFocusClick,
+  maxValue,
 }: ValueButtonsProps<T>) {
   return (
     // <div className={'flex justify-end gap-6'}>
@@ -53,7 +53,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
               onClick={() => {
                 const currentValue = getNumber(String(field.value));
 
-                field.onChange(currentValue + value < 0 ? 0 : currentValue + value);
+                field.onChange(currentValue + value > maxValue ? maxValue : currentValue + value);
                 onFocusClick();
               }}
             >

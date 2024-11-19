@@ -52,8 +52,6 @@ export const compoundRateVariation = {
   valueList: [1, 5, 10],
 };
 
-export type amountVariationType = typeof initialAmountVariation;
-
 function roundUpByThousand(amount: number) {
   // 만 단위 반올림 함수
   return Math.round(amount / 10_000) * 10_000;

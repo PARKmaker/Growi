@@ -6,6 +6,9 @@ import {
   INITIAL_AMOUNT,
   INTEREST_RATE,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
+import { initialAmountVariation } from '@/features/compound-calculator/compound-calculator.utils.ts';
+
+type TAmountVariation = typeof initialAmountVariation;
 
 type TCalculateConst = typeof INITIAL_AMOUNT | typeof COMPOUND_PERIOD | typeof INTEREST_RATE;
 
@@ -15,4 +18,4 @@ type TReturnCalculateBasic = {
   convertedReturnRate: number;
 };
 
-export type { TReturnCalculateBasic, TCalculateConst };
+export type { TReturnCalculateBasic, TCalculateConst, TAmountVariation };

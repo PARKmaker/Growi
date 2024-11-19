@@ -116,6 +116,7 @@ export default function CalculationBasis() {
                     초기금액 (₩)
                   </NumericFormItem>
                   <ValueButtons
+                    maxValue={100_000_000}
                     onFocusClick={() => handleInputFocus(INITIAL_AMOUNT)}
                     isPercent={false}
                     field={field}
@@ -143,6 +144,7 @@ export default function CalculationBasis() {
                     복리 기간 (년)
                   </NumericFormItem>
                   <ValueButtons
+                    maxValue={50}
                     onFocusClick={() => handleInputFocus(COMPOUND_PERIOD)}
                     field={field}
                     variation={compoundPeriodVariation}
@@ -167,6 +169,7 @@ export default function CalculationBasis() {
                     수익률, 이자률 (%)
                   </NumericFormItem>
                   <ValueButtons
+                    maxValue={100}
                     onFocusClick={() => handleInputFocus(INTEREST_RATE)}
                     field={field}
                     variation={compoundRateVariation}

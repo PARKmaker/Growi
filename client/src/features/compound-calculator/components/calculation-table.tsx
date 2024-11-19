@@ -23,8 +23,8 @@ export default function CalculationTable() {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {amountDataList.map((amountData) => (
-          <TableRow className="h-[40px]">
+        {amountDataList.map((amountData, index) => (
+          <TableRow className="h-[40px]" key={`${index}-key`}>
             <TableCell className="border-r p-2 text-center">
               {formatCurrency(amountData.futureAmount)}원
             </TableCell>
