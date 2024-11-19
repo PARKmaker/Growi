@@ -6,14 +6,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TReturnCalculateBasic } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { formatCurrency } from '@/lib/format.ts';
+import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 
-export default function CalculationTable({
-  amountDataList,
-}: {
-  amountDataList: TReturnCalculateBasic[];
-}) {
+export default function CalculationTable() {
+  const { amountDataList } = useAmountDataList();
+
   return (
     <Table>
       {/*<TableCaption>A list of your recent invoices.</TableCaption>*/}
@@ -28,11 +26,11 @@ export default function CalculationTable({
         {amountDataList.map((amountData) => (
           <TableRow className="h-[40px]">
             <TableCell className="border-r p-2 text-center">
-              {formatCurrency(amountData.futureAmount)}
+              {formatCurrency(amountData.futureAmount)}원
             </TableCell>
             <TableCell className="p-2 text-center">{amountData.convertedReturnRate}%</TableCell>
             <TableCell className="border-l p-2 text-center">
-              {formatCurrency(amountData.returnAmount)}
+              {formatCurrency(amountData.returnAmount)}원
             </TableCell>
           </TableRow>
         ))}

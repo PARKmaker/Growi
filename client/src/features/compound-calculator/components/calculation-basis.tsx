@@ -35,6 +35,7 @@ import {
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 import { useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
+import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 
 export default function CalculationBasis() {
   const form = useForm<TField>({
@@ -72,6 +73,8 @@ export default function CalculationBasis() {
     }
   }
 
+  const { setAmountDataList } = useAmountDataList();
+
   function onSubmit(values: TField) {
     const initial = values['initial-amount'] as number;
     const period = values['compound-period'] as number;
@@ -83,7 +86,8 @@ export default function CalculationBasis() {
     }
 
     const amounts = calculateCompoundInterestBasic(initial, period, rate);
-    console.log(amounts);
+
+    setAmountDataList(amounts);
   }
 
   return (

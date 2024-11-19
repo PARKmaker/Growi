@@ -4,13 +4,14 @@
 
 export function formatCurrency(amount: number | null) {
   const value = amount || 0;
-  return new Intl.NumberFormat('ko-KR', {
-    style: 'currency',
-    currency: 'KRW',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-    // notation: 'compact',
-  }).format(value);
+  // return new Intl.NumberFormat('ko-KR', {
+  //   style: 'currency',
+  //   currency: 'KRW',
+  //   minimumFractionDigits: 0,
+  //   maximumFractionDigits: 0,
+  // }).format(value);
+
+  return value.toLocaleString('ko-KR');
 }
 
 export function formatDate(date: Date, onlyMonth?: boolean) {

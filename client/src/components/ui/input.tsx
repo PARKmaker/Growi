@@ -37,7 +37,7 @@ const NumericInput = React.forwardRef<HTMLInputElement, NumericInputProps>(
       <div className={'relative w-full'}>
         <NumericFormat
           getInputRef={ref}
-          className={'text-right'}
+          className={'text-right text-lg'}
           value={value}
           customInput={Input}
           suffix={suffix}

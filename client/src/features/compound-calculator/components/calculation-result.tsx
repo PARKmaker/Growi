@@ -3,12 +3,12 @@ import CalculationResultItem from '@/features/compound-calculator/components/cal
 
 export default function CalculationResult() {
   return (
-    <Card className={'h-full md:w-[300px]'}>
+    <Card>
       <CardHeader>
         <CardTitle>투자 결과</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className={'flex flex-col gap-8'}>
+        <div className={'flex flex-col gap-8 text-left'}>
           <CalculationResultItem
             className={'text-primary'}
             title={'최종 금액'}
