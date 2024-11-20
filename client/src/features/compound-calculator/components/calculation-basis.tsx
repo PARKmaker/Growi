@@ -194,7 +194,13 @@ export default function CalculationBasis() {
               )}
             />
 
-            <Button type={'submit'} size="lg" ref={scrollRef} onClick={handleScrollToTable}>
+            <Button
+              type={'submit'}
+              size="lg"
+              className="w-full text-lg font-semibold"
+              ref={scrollRef}
+              onClick={handleScrollToTable}
+            >
               계산하기
             </Button>
           </form>
