@@ -1,7 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import CalculationResultItem from '@/features/compound-calculator/components/calculation-result-item.tsx';
+import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 
 export default function CalculationResult() {
+  const { amountDataList } = useAmountDataList();
+
+  const { futureAmount, returnAmount, convertedReturnRate } =
+    amountDataList[amountDataList.length - 1];
+
   return (
     <Card>
       <CardHeader>
@@ -12,25 +18,22 @@ export default function CalculationResult() {
           <CalculationResultItem
             className={'text-primary'}
             title={'최종 금액'}
-            amount={1000000}
+            amount={futureAmount}
             suffix={'원'}
           />
           <CalculationResultItem
-            className={'text-[#F4CE14]'}
+            className={'text-amber-600'}
             title={'총 투자 수익'}
-            amount={1000000}
+            amount={returnAmount}
             suffix={'원'}
           />
+
+          <CalculationResultItem title={'총 투자 금액'} amount={1000000} suffix={'원'} />
+
           <CalculationResultItem
-            className={'text-[#495E57]'}
-            title={'총 투자 금액'}
-            amount={1000000}
-            suffix={'원'}
-          />
-          <CalculationResultItem
-            className={'text-[#45474B]'}
+            className={'text-primary'}
             title={'수익율'}
-            amount={100}
+            amount={convertedReturnRate}
             suffix={'%'}
           />
         </div>

@@ -26,9 +26,9 @@ import {
   defaultValues,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
 import {
-  formSchema,
-  TField,
-} from '@/features/compound-calculator/components/calculation-basis-form-schema.ts';
+  basicFormSchema,
+  TBasicField,
+} from '@/features/compound-calculator/components/calculation-form-schemas.ts';
 import { calculateCompoundInterestBasic } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 import { useEffect, useRef } from 'react';
@@ -40,8 +40,8 @@ const { initialAmount, compoundPeriod, interestRate } = defaultValues;
 export default function CalculationBasis() {
   // Todo: url에 초기비용, 기간, 이자율 저장.
 
-  const form = useForm<TField>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<TBasicField>({
+    resolver: zodResolver(basicFormSchema),
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
@@ -84,7 +84,7 @@ export default function CalculationBasis() {
     setAmountDataList(amounts);
   }, []);
 
-  function onSubmit(values: TField) {
+  function onSubmit(values: TBasicField) {
     const initial = values['initial-amount'] as number;
     const period = values['compound-period'] as number;
     const rate = values['interest-rate'] as number;

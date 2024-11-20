@@ -27,11 +27,11 @@ export default function CalculationTable() {
         {amountDataList.map((amountData) => (
           <TableRow className="h-[40px]" key={`${amountData.year}-key`}>
             <TableCell className="border-r p-2 text-center">{amountData.year}</TableCell>
-            <TableCell className="border-r p-2 text-right">
+            <TableCell className="border-r p-2 text-right text-primary">
               {formatCurrency(amountData.futureAmount)}원
             </TableCell>
-            <TableCell className="border-r p-2 text-right">
-              {formatCurrency(amountData.returnAmount)}원
+            <TableCell className="border-r p-2 text-right text-amber-600">
+              +{formatCurrency(amountData.returnAmount)}원
             </TableCell>
             <TableCell className="p-2 text-right">{amountData.convertedReturnRate}%</TableCell>
           </TableRow>
