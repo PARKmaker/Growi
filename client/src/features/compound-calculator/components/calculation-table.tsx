@@ -16,22 +16,24 @@ export default function CalculationTable() {
     <Table>
       {/*<TableCaption>A list of your recent invoices.</TableCaption>*/}
       <TableHeader>
-        <TableRow className="bg-primary-foreground">
+        <TableRow>
+          <TableHead className="w-[30px] border-r">년</TableHead>
           <TableHead className="border-r text-center">총 금액</TableHead>
-          <TableHead className="text-center">수익률</TableHead>
-          <TableHead className="border-l text-center">수익금</TableHead>
+          <TableHead className="border-r text-center">수익금</TableHead>
+          <TableHead className="w-[120px] text-center">수익률</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
-        {amountDataList.map((amountData, index) => (
-          <TableRow className="h-[40px]" key={`${index}-key`}>
-            <TableCell className="border-r p-2 text-center">
+        {amountDataList.map((amountData) => (
+          <TableRow className="h-[40px]" key={`${amountData.year}-key`}>
+            <TableCell className="border-r p-2 text-center">{amountData.year}</TableCell>
+            <TableCell className="border-r p-2 text-right">
               {formatCurrency(amountData.futureAmount)}원
             </TableCell>
-            <TableCell className="p-2 text-center">{amountData.convertedReturnRate}%</TableCell>
-            <TableCell className="border-l p-2 text-center">
+            <TableCell className="border-r p-2 text-right">
               {formatCurrency(amountData.returnAmount)}원
             </TableCell>
+            <TableCell className="p-2 text-right">{amountData.convertedReturnRate}%</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -35,7 +35,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
               className="hidden h-8 w-full sm:block"
               size={'sm'}
               variant={'secondary'}
-              type={'button'}
+              type={'submit'}
               onClick={() => {
                 const currentValue = getNumber(String(field.value));
 
@@ -49,7 +49,7 @@ export default function ValueButtonsInner<T extends keyof TField>({
               className="h-8 w-full"
               size={'sm'}
               variant={'secondary'}
-              type={'button'}
+              type={'submit'}
               onClick={() => {
                 const currentValue = getNumber(String(field.value));
 

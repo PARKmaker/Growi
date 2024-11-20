@@ -1,6 +1,5 @@
 /**
  * 복리계산기 (기본) - 컨텐츠
- * @todo: 2024/07/17 폼 연결
  */
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,31 +20,34 @@ import {
   COMPOUND_PERIOD,
   INTEREST_RATE,
   INITIAL_AMOUNT,
+  initialAmountVariation,
+  compoundPeriodVariation,
+  compoundRateVariation,
+  defaultValues,
 } from '@/features/compound-calculator/compound-calculator.const.ts';
 import {
   formSchema,
   TField,
 } from '@/features/compound-calculator/components/calculation-basis-form-schema.ts';
-import {
-  calculateCompoundInterestBasic,
-  compoundPeriodVariation,
-  compoundRateVariation,
-  initialAmountVariation,
-} from '@/features/compound-calculator/compound-calculator.utils.ts';
+import { calculateCompoundInterestBasic } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 
+const { initialAmount, compoundPeriod, interestRate } = defaultValues;
+
 export default function CalculationBasis() {
+  // Todo: url에 초기비용, 기간, 이자율 저장.
+
   const form = useForm<TField>({
     resolver: zodResolver(formSchema),
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
-      [INITIAL_AMOUNT]: 1000000,
-      [COMPOUND_PERIOD]: 10,
-      [INTEREST_RATE]: 5,
+      [INITIAL_AMOUNT]: initialAmount,
+      [COMPOUND_PERIOD]: compoundPeriod,
+      [INTEREST_RATE]: interestRate,
     },
   });
 
@@ -75,19 +77,29 @@ export default function CalculationBasis() {
 
   const { setAmountDataList } = useAmountDataList();
 
+  useEffect(() => {
+    // 첫 렌더링때 기본값으로 초기화
+    const amounts = calculateCompoundInterestBasic(initialAmount, compoundPeriod, interestRate);
+
+    setAmountDataList(amounts);
+  }, []);
+
   function onSubmit(values: TField) {
     const initial = values['initial-amount'] as number;
     const period = values['compound-period'] as number;
     const rate = values['interest-rate'] as number;
 
-    if (!initial || !period || !rate) {
-      console.error('값이 없습니다.;;');
-      return;
-    }
-
     const amounts = calculateCompoundInterestBasic(initial, period, rate);
 
     setAmountDataList(amounts);
+  }
+
+  const scrollRef = useRef<HTMLButtonElement>(null);
+
+  function handleScrollToTable() {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   }
 
   return (
@@ -125,6 +137,7 @@ export default function CalculationBasis() {
                 </div>
               )}
             />
+
             <FormField
               control={form.control}
               name={COMPOUND_PERIOD}
@@ -152,6 +165,7 @@ export default function CalculationBasis() {
                 </div>
               )}
             />
+
             <FormField
               control={form.control}
               name={INTEREST_RATE}
@@ -178,7 +192,7 @@ export default function CalculationBasis() {
               )}
             />
 
-            <Button type={'submit'} variant={'outline'}>
+            <Button type={'submit'} size="lg" ref={scrollRef} onClick={handleScrollToTable}>
               계산하기
             </Button>
           </form>

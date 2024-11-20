@@ -12,7 +12,8 @@ type AmountDataListContextValue = {
 export const AmountDataListContext = createContext<AmountDataListContextValue | null>(null);
 
 const initialAmountData: TReturnCalculateBasic = {
-  futureAmount: 1123124000,
+  year: 1,
+  futureAmount: 0,
   returnAmount: 0,
   convertedReturnRate: 0,
 };

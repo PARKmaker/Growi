@@ -37,21 +37,6 @@ export function getNumber(value: string) {
   return string.length === 0 ? 0 : Number(string);
 }
 
-export const initialAmountVariation = {
-  maxValue: 100_000_000,
-  valueList: [100_000, 1_000_000, 10_000_000],
-};
-
-export const compoundPeriodVariation = {
-  maxValue: 50,
-  valueList: [1, 5, 10],
-};
-
-export const compoundRateVariation = {
-  maxValue: 100,
-  valueList: [1, 5, 10],
-};
-
 function roundUpByThousand(amount: number) {
   // 만 단위 반올림 함수
   return Math.round(amount / 10_000) * 10_000;
@@ -78,7 +63,7 @@ export function calculateCompoundInterestBasic(
     const futureAmount = roundUpByThousand(initialAmount * returnRate);
     const returnAmount = roundUpByThousand(futureAmount - initialAmount);
 
-    return { futureAmount, returnAmount, convertedReturnRate };
+    return { year: year + 1, futureAmount, returnAmount, convertedReturnRate };
   });
 
   return amounts;
