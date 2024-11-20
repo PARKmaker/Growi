@@ -18,9 +18,9 @@ export default function CalculationTable() {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[30px] border-r">년</TableHead>
-          <TableHead className="border-r text-center">총 금액</TableHead>
-          <TableHead className="border-r text-center">수익금</TableHead>
-          <TableHead className="w-[120px] text-center">수익률</TableHead>
+          <TableHead className="min-w-[150px] border-r text-center">총 금액</TableHead>
+          <TableHead className="min-w-[150px] border-r text-center">수익금</TableHead>
+          <TableHead className="w-[100px] text-center">수익률</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
