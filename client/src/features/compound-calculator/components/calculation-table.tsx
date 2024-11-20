@@ -20,6 +20,9 @@ export default function CalculationTable() {
           <TableHead className="w-[30px] border-r">년</TableHead>
           <TableHead className="min-w-[150px] border-r text-center">총 금액</TableHead>
           <TableHead className="min-w-[150px] border-r text-center">수익금</TableHead>
+          {'yearAmount' in amountDataList[0] ? (
+            <TableHead className="min-w-[150px] border-r text-center">총 투자금</TableHead>
+          ) : null}
           <TableHead className="w-[100px] text-center">수익률</TableHead>
         </TableRow>
       </TableHeader>
@@ -33,7 +36,12 @@ export default function CalculationTable() {
             <TableCell className="border-r p-2 text-right text-amber-600">
               +{formatCurrency(amountData.returnAmount)}원
             </TableCell>
-            <TableCell className="p-2 text-right">{amountData.convertedReturnRate}%</TableCell>
+            {'yearAmount' in amountData ? (
+              <TableCell className="border-r p-2 text-right">
+                {formatCurrency(amountData.yearAmount)}원
+              </TableCell>
+            ) : null}
+            <TableCell className="p-2 text-right">{amountData.ratePercentage}%</TableCell>
           </TableRow>
         ))}
       </TableBody>

@@ -2,28 +2,32 @@
  * Created by tkdgu:박상현 on 2024-11-19
  */
 import { createContext, useState } from 'react';
-import { TReturnCalculateBasic } from '@/features/compound-calculator/compound-calculator.types.ts';
+import {
+  TReturnCalculateAccumulation,
+  TReturnCalculateBasic,
+} from '@/features/compound-calculator/compound-calculator.types.ts';
+
+type TReturnCalculate = TReturnCalculateBasic[] | TReturnCalculateAccumulation[];
 
 type AmountDataListContextValue = {
-  amountDataList: TReturnCalculateBasic[];
-  setAmountDataList: (amountDataList: TReturnCalculateBasic[]) => void;
+  amountDataList: TReturnCalculate;
+  setAmountDataList: (amountDataList: TReturnCalculate) => void;
 };
 
 export const AmountDataListContext = createContext<AmountDataListContextValue | null>(null);
 
-const initialAmountData: TReturnCalculateBasic = {
+const initialAmountData: TReturnCalculateBasic | TReturnCalculateAccumulation = {
   year: 1,
   futureAmount: 0,
   returnAmount: 0,
-  convertedReturnRate: 0,
+  ratePercentage: 0,
+  yearAmount: 0,
 };
 
 export function AmountDataListContextProvider({ children }: React.PropsWithChildren<object>) {
-  const [amountDataList, setAmountDataListRaw] = useState<TReturnCalculateBasic[]>([
-    initialAmountData,
-  ]);
+  const [amountDataList, setAmountDataListRaw] = useState<TReturnCalculate>([initialAmountData]);
 
-  function setAmountDataList(amountDataList: TReturnCalculateBasic[]) {
+  function setAmountDataList(amountDataList: TReturnCalculate) {
     setAmountDataListRaw(amountDataList);
   }
 

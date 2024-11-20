@@ -21,7 +21,14 @@ type TReturnCalculateBasic = {
   year: number;
   futureAmount: number;
   returnAmount: number;
-  convertedReturnRate: number;
+  ratePercentage: number;
 };
 
-export type { TReturnCalculateBasic, TCalculateConst, TAmountVariation };
+type TReturnCalculateAccumulation = TReturnCalculateBasic & { yearAmount: number };
+
+export type {
+  TReturnCalculateBasic,
+  TCalculateConst,
+  TAmountVariation,
+  TReturnCalculateAccumulation,
+};

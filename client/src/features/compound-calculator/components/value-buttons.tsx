@@ -8,20 +8,35 @@ import { getNumber } from '@/features/compound-calculator/compound-calculator.ut
 import { Button } from '@/components/ui/button.tsx';
 import { TAmountVariation } from '@/features/compound-calculator/compound-calculator.types.ts';
 
+type TSuffix = 'won' | 'percentage' | 'year';
+
 type ValueButtonsProps = {
   field: any;
   variation: TAmountVariation;
-  isPercent?: boolean;
   onFocusClick: () => void;
   maxValue: number;
+  suffix: TSuffix;
 };
+
+function makeButtonText(value: number, suffix: TSuffix) {
+  switch (suffix) {
+    case 'won':
+      return `${value / 10000}만`;
+    case 'percentage':
+      return `${value}만`;
+    case 'year':
+      return `${value}년`;
+    default:
+      return `${value}`;
+  }
+}
 
 export default function ValueButtonsInner({
   field,
   variation,
-  isPercent = true,
   onFocusClick,
   maxValue,
+  suffix,
 }: ValueButtonsProps) {
   return (
     // <div className={'flex justify-end gap-6'}>
@@ -41,7 +56,7 @@ export default function ValueButtonsInner({
                 onFocusClick();
               }}
             >
-              -{isPercent ? `${value}%` : `${value / 10000}만`}
+              -{makeButtonText(value, suffix)}
             </Button>
             <Button
               className="h-8 w-full"
@@ -55,7 +70,7 @@ export default function ValueButtonsInner({
                 onFocusClick();
               }}
             >
-              +{isPercent ? `${value}%` : `${value / 10000}만`}
+              +{makeButtonText(value, suffix)}
             </Button>
           </div>
         );

@@ -31,90 +31,16 @@ import {
   accumulationFormSchema,
   TAccumulationField,
 } from '@/features/compound-calculator/components/calculation-form-schemas.ts';
-import { calculateCompoundInterestBasic } from '@/features/compound-calculator/compound-calculator.utils.ts';
+import {
+  calculateCompoundInterestAccumulation,
+  calculateCompoundInterestBasic,
+} from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 
 const { initialAmount, compoundPeriod, interestRate, monthlyAmount } = defaultValues;
-
-//
-// export default function CalculationAccumulation() {
-//   return (
-//     <Card>
-//       <CardHeader>
-//         <CardTitle>적립식</CardTitle>
-//         <CardDescription>매월 추가 투자금, 적립식 복리 계산기</CardDescription>
-//       </CardHeader>
-//       <CardContent className={'space-y-2'}>
-//         <div className={'space-y-1'}>
-//           <LabelWithInfo
-//             htmlFor={'initial-amount'}
-//             hoverCardContent={'최초 투자시 투자금을 입력해주세요.\n(시작금액)'}
-//             hoverCardFooter={'최대 1억'}
-//           >
-//             초기금액 (₩)
-//           </LabelWithInfo>
-//           <NumericInput
-//             defaultValue={1_000_000}
-//             value={1_000_000}
-//             id={'initial-amount'}
-//             suffix={'₩'}
-//             maxValue={100_000_000}
-//           />
-//         </div>
-//         <div className={'space-y-1'}>
-//           <LabelWithInfo
-//             htmlFor={'accumulated-amount'}
-//             hoverCardContent={
-//               '매월마다 적립할 금액입니다.\n두 번째 달부터 원금에 더해져 계산됩니다.'
-//             }
-//             hoverCardFooter={'최대 1000만원'}
-//           >
-//             매월 적립 금액 (₩)
-//           </LabelWithInfo>
-//           <NumericInput
-//             defaultValue={1_000_000}
-//             value={1_000_000}
-//             id={'accumulated-amount'}
-//             suffix={'₩'}
-//             maxValue={10_000_000}
-//           />
-//         </div>
-//         <div className={'space-y-1'}>
-//           <LabelWithInfo
-//             htmlFor={'compound-interest-count'}
-//             hoverCardContent={'복리 효과를 누릴 기간입니다.\n투자 기간이라고 볼 수 있습니다.'}
-//             hoverCardFooter={'최대 50년'}
-//           >
-//             복리 기간 (년)
-//           </LabelWithInfo>
-//           <NumericInput
-//             defaultValue={10}
-//             value={10}
-//             id={'compound-interest-count'}
-//             suffix={'년'}
-//             maxValue={50}
-//           />
-//         </div>
-//         <div className={'space-y-1'}>
-//           <LabelWithInfo
-//             htmlFor={'rate'}
-//             hoverCardContent={'복리 기간동안 년간 수익률입니다.'}
-//             hoverCardFooter={'최대 100%'}
-//           >
-//             수익률, 이자률 (%)
-//           </LabelWithInfo>
-//           <NumericInput defaultValue={5} value={5} id={'rate'} suffix={'%'} maxValue={100} />
-//         </div>
-//       </CardContent>
-//       <CardFooter>
-//         <Button variant={'outline'}>계산하기</Button>
-//       </CardFooter>
-//     </Card>
-//   );
-// }
 
 export default function CalculationBasis() {
   // Todo: url에 초기비용, 기간, 이자율 저장.
@@ -177,9 +103,9 @@ export default function CalculationBasis() {
     const initial = values['initial-amount'] as number;
     const period = values['compound-period'] as number;
     const rate = values['interest-rate'] as number;
+    const monthlyAmount = values['monthly-amount'] as number;
 
-    const amounts = calculateCompoundInterestBasic(initial, period, rate);
-
+    const amounts = calculateCompoundInterestAccumulation(initial, period, rate, monthlyAmount);
     setAmountDataList(amounts);
   }
 
@@ -217,9 +143,9 @@ export default function CalculationBasis() {
                     초기금액 (₩)
                   </NumericFormItem>
                   <ValueButtons
+                    suffix={'won'}
                     maxValue={100_000_000}
                     onFocusClick={() => handleInputFocus(INITIAL_AMOUNT)}
-                    isPercent={false}
                     field={field}
                     variation={initialAmountVariation}
                   />
@@ -246,6 +172,7 @@ export default function CalculationBasis() {
                     매월 적립 금액 (₩)
                   </NumericFormItem>
                   <ValueButtons
+                    suffix={'won'}
                     maxValue={10_000_000}
                     onFocusClick={() => handleInputFocus(MONTHLY_AMOUNT)}
                     field={field}
@@ -276,6 +203,7 @@ export default function CalculationBasis() {
                   <ValueButtons
                     maxValue={50}
                     onFocusClick={() => handleInputFocus(COMPOUND_PERIOD)}
+                    suffix={'year'}
                     field={field}
                     variation={compoundPeriodVariation}
                   />
@@ -302,6 +230,7 @@ export default function CalculationBasis() {
                   <ValueButtons
                     maxValue={100}
                     onFocusClick={() => handleInputFocus(INTEREST_RATE)}
+                    suffix={'percentage'}
                     field={field}
                     variation={compoundRateVariation}
                   />

@@ -44,7 +44,6 @@ function roundUpByThousand(amount: number) {
 
 function convertRateToPercentage(rate: number) {
   // return ((returnRate - 1) * 100).toFixed(2); // 2자리까지
-
   return Number(((rate - 1) * 100).toFixed(0)); // 정수만
 }
 
@@ -53,17 +52,17 @@ export function calculateCompoundInterestBasic(
   compoundPeriod: number,
   interestRate: number,
 ): TReturnCalculateBasic[] {
-  const years = Array.from({ length: compoundPeriod }, (_, i) => i);
+  const years = Array.from({ length: compoundPeriod }, (_, i) => i + 1);
   const amounts = years.map((year) => {
     const yearRate = interestRate / 100;
-    const returnRate = Math.pow(1 + yearRate, year + 1); // 수익률
-    const convertedReturnRate = convertRateToPercentage(returnRate);
+    const returnRate = Math.pow(1 + yearRate, year); // 수익률
 
     // F = P(1+r)^n => F: 미래가치, P: 현재 가치, r: 이율, n: 기간
     const futureAmount = roundUpByThousand(initialAmount * returnRate);
     const returnAmount = roundUpByThousand(futureAmount - initialAmount);
+    const ratePercentage = convertRateToPercentage(returnRate);
 
-    return { year: year + 1, futureAmount, returnAmount, convertedReturnRate };
+    return { year, futureAmount, returnAmount, ratePercentage };
   });
 
   return amounts;
@@ -75,17 +74,50 @@ export function calculateCompoundInterestAccumulation(
   interestRate: number,
   monthlyAmount: number,
 ) {
-  const years = Array.from({ length: compoundPeriod }, (_, i) => i);
+  const years = Array.from({ length: compoundPeriod }, (_, i) => i + 1);
+  const monthlyRate = interestRate / 12 / 100;
+  const monthsPerYear = 12;
+  let currentAmount = initialAmount;
+  const yearlyAmount = monthlyAmount * monthsPerYear;
+
   const amounts = years.map((year) => {
-    const monthlyRate = interestRate / 100 / 12;
-    const months = (year + 1) * 12;
-    let futureValue = initialAmount * Math.pow(1 + monthlyRate, months);
-    for (let i = 1; i <= months; i++) {
-      futureValue += monthlyAmount * Math.pow(1 + monthlyRate, months - i);
+    for (let month = 1; month <= monthsPerYear; month++) {
+      currentAmount = currentAmount + monthlyAmount;
+      currentAmount = currentAmount * (1 + monthlyRate);
     }
 
-    return Math.round(futureValue / 10_000) * 10_000;
+    const yearAmount = initialAmount + yearlyAmount * year; // 투자액
+    const annualReturnRate = (currentAmount - yearAmount) / yearAmount + 1; // 수익률
+
+    const futureAmount = roundUpByThousand(currentAmount); // 최종 금액
+    const returnAmount = roundUpByThousand(currentAmount - yearAmount); // 수익금
+    const ratePercentage = convertRateToPercentage(annualReturnRate);
+
+    return {
+      year,
+      ratePercentage,
+      returnAmount,
+      futureAmount,
+      yearAmount,
+    };
   });
+
+  // console.log(amounts);
+
+  return amounts;
+
+  // const amounts = years.map((year) => {
+  //   const returnRate = Math.pow(1 + yearRate, year); // 수익률
+  //   const yearAmount = year * monthlyAmount * 12 + initialAmount;
+  //
+  //   // F = P(1+r)^n => F: 미래가치, P: 현재 가치, r: 이율, n: 기간
+  //   const futureAmount = roundUpByThousand(yearAmount * returnRate);
+  //   const returnAmount = roundUpByThousand(futureAmount - yearAmount);
+  //   const ratePercentage = convertRateToPercentage(returnRate);
+  //   return { year, futureAmount, yearAmount, returnAmount, ratePercentage };
+  // });
+  //
+  // return amounts;
   //
   // const tableData = years.map((year, index) => {
   //   const finalAmount = amounts[index];
@@ -108,6 +140,4 @@ export function calculateCompoundInterestAccumulation(
   // });
 
   // setTableData(tableData);
-
-  return amounts;
 }
