@@ -31,29 +31,32 @@ import {
   accumulationFormSchema,
   TAccumulationField,
 } from '@/features/compound-calculator/components/calculation-form-schemas.ts';
-import {
-  calculateCompoundInterestAccumulation,
-  calculateCompoundInterestBasic,
-} from '@/features/compound-calculator/compound-calculator.utils.ts';
+import { calculateCompoundInterestAccumulation } from '@/features/compound-calculator/compound-calculator.utils.ts';
 import ValueButtons from '@/features/compound-calculator/components/value-buttons.tsx';
 import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
+import useLocalStorage from '@/hooks/use-local-storage.tsx';
 
 const { initialAmount, compoundPeriod, interestRate, monthlyAmount } = defaultValues;
 
-export default function CalculationBasis() {
-  // Todo: url에 초기비용, 기간, 이자율 저장.
+export default function CalculationAccumulation() {
+  const { storedValue, setValue } = useLocalStorage<TAccumulationField>('defaultValueAcc', {
+    [INITIAL_AMOUNT]: null,
+    [MONTHLY_AMOUNT]: null,
+    [COMPOUND_PERIOD]: null,
+    [INTEREST_RATE]: null,
+  });
 
   const form = useForm<TAccumulationField>({
     resolver: zodResolver(accumulationFormSchema),
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
-      [INITIAL_AMOUNT]: initialAmount,
-      [MONTHLY_AMOUNT]: monthlyAmount,
-      [COMPOUND_PERIOD]: compoundPeriod,
-      [INTEREST_RATE]: interestRate,
+      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || initialAmount,
+      [MONTHLY_AMOUNT]: storedValue[MONTHLY_AMOUNT] || monthlyAmount,
+      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || compoundPeriod,
+      [INTEREST_RATE]: storedValue[INTEREST_RATE] || interestRate,
     },
   });
 
@@ -94,16 +97,22 @@ export default function CalculationBasis() {
 
   useEffect(() => {
     // 첫 렌더링때 기본값으로 초기화
-    const amounts = calculateCompoundInterestBasic(initialAmount, compoundPeriod, interestRate);
+    const amounts = calculateCompoundInterestAccumulation(
+      storedValue[INITIAL_AMOUNT] || initialAmount,
+      storedValue[COMPOUND_PERIOD] || compoundPeriod,
+      storedValue[INTEREST_RATE] || interestRate,
+      storedValue[MONTHLY_AMOUNT] || monthlyAmount,
+    );
 
     setAmountDataList(amounts);
   }, []);
 
   function onSubmit(values: TAccumulationField) {
-    const initial = values['initial-amount'] as number;
-    const period = values['compound-period'] as number;
-    const rate = values['interest-rate'] as number;
-    const monthlyAmount = values['monthly-amount'] as number;
+    setValue(values);
+    const initial = values[INITIAL_AMOUNT] as number;
+    const period = values[COMPOUND_PERIOD] as number;
+    const rate = values[INTEREST_RATE] as number;
+    const monthlyAmount = values[MONTHLY_AMOUNT] as number;
 
     const amounts = calculateCompoundInterestAccumulation(initial, period, rate, monthlyAmount);
     setAmountDataList(amounts);
@@ -115,6 +124,25 @@ export default function CalculationBasis() {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  function handleResetValue() {
+    form.reset();
+
+    const amounts = calculateCompoundInterestAccumulation(
+      initialAmount,
+      compoundPeriod,
+      interestRate,
+      monthlyAmount,
+    );
+
+    setAmountDataList(amounts);
+    setValue({
+      [INITIAL_AMOUNT]: null,
+      [MONTHLY_AMOUNT]: null,
+      [COMPOUND_PERIOD]: null,
+      [INTEREST_RATE]: null,
+    });
   }
 
   return (
@@ -238,15 +266,27 @@ export default function CalculationBasis() {
               )}
             />
 
-            <Button
-              type={'submit'}
-              size="lg"
-              className="w-full text-lg font-semibold"
-              ref={scrollRef}
-              onClick={handleScrollToTable}
-            >
-              계산하기
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                type={'button'}
+                variant={'outline'}
+                size="lg"
+                className="w-1/4 text-lg"
+                ref={scrollRef}
+                onClick={handleResetValue}
+              >
+                초기화
+              </Button>
+              <Button
+                type={'submit'}
+                size="lg"
+                className="w-3/4 text-lg font-semibold"
+                ref={scrollRef}
+                onClick={handleScrollToTable}
+              >
+                계산하기
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>

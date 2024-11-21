@@ -11,7 +11,6 @@ import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmoun
 
 export default function CalculationTable() {
   const { amountDataList } = useAmountDataList();
-
   return (
     <Table>
       {/*<TableCaption>A list of your recent invoices.</TableCaption>*/}

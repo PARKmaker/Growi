@@ -13,7 +13,7 @@ const defaultValues = {
   initialAmount: 10000000,
   compoundPeriod: 10,
   interestRate: 5,
-  monthlyAmount: 1000000,
+  monthlyAmount: 1_000_000,
 };
 
 const initialAmountVariation = {

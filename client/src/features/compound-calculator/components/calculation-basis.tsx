@@ -34,20 +34,25 @@ import ValueButtons from '@/features/compound-calculator/components/value-button
 import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
+import useLocalStorage from '@/hooks/use-local-storage.tsx';
 
 const { initialAmount, compoundPeriod, interestRate } = defaultValues;
 
 export default function CalculationBasis() {
-  // Todo: url에 초기비용, 기간, 이자율 저장.
+  const { storedValue, setValue } = useLocalStorage<TBasicField>('defaultValueBasic', {
+    [INITIAL_AMOUNT]: null,
+    [COMPOUND_PERIOD]: null,
+    [INTEREST_RATE]: null,
+  });
 
   const form = useForm<TBasicField>({
     resolver: zodResolver(basicFormSchema),
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
-      [INITIAL_AMOUNT]: initialAmount,
-      [COMPOUND_PERIOD]: compoundPeriod,
-      [INTEREST_RATE]: interestRate,
+      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || initialAmount,
+      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || compoundPeriod,
+      [INTEREST_RATE]: storedValue[INTEREST_RATE] || interestRate,
     },
   });
 
@@ -79,15 +84,22 @@ export default function CalculationBasis() {
 
   useEffect(() => {
     // 첫 렌더링때 기본값으로 초기화
-    const amounts = calculateCompoundInterestBasic(initialAmount, compoundPeriod, interestRate);
+
+    const amounts = calculateCompoundInterestBasic(
+      storedValue[INITIAL_AMOUNT] || initialAmount,
+      storedValue[COMPOUND_PERIOD] || compoundPeriod,
+      storedValue[INTEREST_RATE] || interestRate,
+    );
 
     setAmountDataList(amounts);
   }, []);
 
   function onSubmit(values: TBasicField) {
-    const initial = values['initial-amount'] as number;
-    const period = values['compound-period'] as number;
-    const rate = values['interest-rate'] as number;
+    setValue(values);
+
+    const initial = values[INITIAL_AMOUNT] as number;
+    const period = values[COMPOUND_PERIOD] as number;
+    const rate = values[INTEREST_RATE] as number;
 
     const amounts = calculateCompoundInterestBasic(initial, period, rate);
 
@@ -101,6 +113,8 @@ export default function CalculationBasis() {
       scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }
+
+  function handleResetValue() {}
 
   return (
     <Card>
@@ -194,15 +208,27 @@ export default function CalculationBasis() {
               )}
             />
 
-            <Button
-              type={'submit'}
-              size="lg"
-              className="w-full text-lg font-semibold"
-              ref={scrollRef}
-              onClick={handleScrollToTable}
-            >
-              계산하기
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                type={'button'}
+                variant={'outline'}
+                size="lg"
+                className="w-1/4 text-lg"
+                ref={scrollRef}
+                onClick={handleResetValue}
+              >
+                초기화
+              </Button>
+              <Button
+                type={'submit'}
+                size="lg"
+                className="w-3/4 text-lg font-semibold"
+                ref={scrollRef}
+                onClick={handleScrollToTable}
+              >
+                계산하기
+              </Button>
+            </div>
           </form>
         </Form>
       </CardContent>
