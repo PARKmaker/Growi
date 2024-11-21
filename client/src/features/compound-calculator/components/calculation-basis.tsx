@@ -57,25 +57,22 @@ export default function CalculationBasis() {
   });
 
   // 금액 증감 버튼 클릭시 input에 포커스 하기 위한 ref
-
-  const initialInputRef = useRef<HTMLInputElement>(null);
-  const periodInputRef = useRef<HTMLInputElement>(null);
-  const rateInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement[]>([]);
 
   function handleInputFocus(buttonType: TCalculateConst) {
-    if (!initialInputRef.current || !periodInputRef.current || !rateInputRef.current) {
+    if (!inputRef.current || inputRef.current.length < 1) {
       return;
     }
 
     switch (buttonType) {
       case INITIAL_AMOUNT:
-        initialInputRef.current.focus();
+        inputRef.current[0].focus();
         return;
       case COMPOUND_PERIOD:
-        periodInputRef.current.focus();
+        inputRef.current[1].focus();
         return;
       case INTEREST_RATE:
-        rateInputRef.current.focus();
+        inputRef.current[2].focus();
         return;
     }
   }
@@ -114,7 +111,22 @@ export default function CalculationBasis() {
     }
   }
 
-  function handleResetValue() {}
+  function handleResetValue() {
+    form.reset({
+      [INITIAL_AMOUNT]: initialAmount,
+      [COMPOUND_PERIOD]: compoundPeriod,
+      [INTEREST_RATE]: interestRate,
+    });
+    const amounts = calculateCompoundInterestBasic(initialAmount, compoundPeriod, interestRate);
+
+    setAmountDataList(amounts);
+    setValue({
+      [INITIAL_AMOUNT]: null,
+      [COMPOUND_PERIOD]: null,
+      [INTEREST_RATE]: null,
+    });
+    // console.log(form.getValues());
+  }
 
   return (
     <Card>
@@ -137,7 +149,11 @@ export default function CalculationBasis() {
                     maxValue={100_000_000}
                     required={true}
                     {...field}
-                    ref={initialInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[0] = element;
+                      }
+                    }}
                   >
                     초기금액 (₩)
                   </NumericFormItem>
@@ -166,7 +182,11 @@ export default function CalculationBasis() {
                     maxValue={50}
                     required={true}
                     {...field}
-                    ref={periodInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[1] = element;
+                      }
+                    }}
                   >
                     복리 기간 (년)
                   </NumericFormItem>
@@ -193,7 +213,11 @@ export default function CalculationBasis() {
                     maxValue={100}
                     required={true}
                     {...field}
-                    ref={rateInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[2] = element;
+                      }
+                    }}
                   >
                     수익률, 이자률 (%)
                   </NumericFormItem>
@@ -214,7 +238,6 @@ export default function CalculationBasis() {
                 variant={'outline'}
                 size="lg"
                 className="w-1/4 text-lg"
-                ref={scrollRef}
                 onClick={handleResetValue}
               >
                 초기화

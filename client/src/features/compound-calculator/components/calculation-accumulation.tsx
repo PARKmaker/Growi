@@ -61,34 +61,25 @@ export default function CalculationAccumulation() {
   });
 
   // 금액 증감 버튼 클릭시 input에 포커스 하기 위한 ref
-
-  const initialInputRef = useRef<HTMLInputElement>(null);
-  const monthlyAmountInputRef = useRef<HTMLInputElement>(null);
-  const periodInputRef = useRef<HTMLInputElement>(null);
-  const rateInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement[]>([]);
 
   function handleInputFocus(buttonType: TCalculateConst) {
-    if (
-      !initialInputRef.current ||
-      !periodInputRef.current ||
-      !rateInputRef.current ||
-      !monthlyAmountInputRef.current
-    ) {
+    if (!inputRef.current || inputRef.current.length < 1) {
       return;
     }
 
     switch (buttonType) {
       case INITIAL_AMOUNT:
-        initialInputRef.current.focus();
+        inputRef.current[0].focus();
         return;
       case MONTHLY_AMOUNT:
-        monthlyAmountInputRef.current.focus();
+        inputRef.current[1].focus();
         return;
       case COMPOUND_PERIOD:
-        periodInputRef.current.focus();
+        inputRef.current[2].focus();
         return;
       case INTEREST_RATE:
-        rateInputRef.current.focus();
+        inputRef.current[3].focus();
         return;
     }
   }
@@ -108,14 +99,14 @@ export default function CalculationAccumulation() {
   }, []);
 
   function onSubmit(values: TAccumulationField) {
-    setValue(values);
     const initial = values[INITIAL_AMOUNT] as number;
     const period = values[COMPOUND_PERIOD] as number;
     const rate = values[INTEREST_RATE] as number;
     const monthlyAmount = values[MONTHLY_AMOUNT] as number;
-
     const amounts = calculateCompoundInterestAccumulation(initial, period, rate, monthlyAmount);
+
     setAmountDataList(amounts);
+    setValue(values);
   }
 
   const scrollRef = useRef<HTMLButtonElement>(null);
@@ -127,7 +118,12 @@ export default function CalculationAccumulation() {
   }
 
   function handleResetValue() {
-    form.reset();
+    form.reset({
+      [INITIAL_AMOUNT]: initialAmount,
+      [COMPOUND_PERIOD]: compoundPeriod,
+      [INTEREST_RATE]: interestRate,
+      [MONTHLY_AMOUNT]: monthlyAmount,
+    });
 
     const amounts = calculateCompoundInterestAccumulation(
       initialAmount,
@@ -166,7 +162,12 @@ export default function CalculationAccumulation() {
                     maxValue={100_000_000}
                     required={true}
                     {...field}
-                    ref={initialInputRef}
+                    // ref={initialInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[0] = element;
+                      }
+                    }}
                   >
                     초기금액 (₩)
                   </NumericFormItem>
@@ -195,7 +196,11 @@ export default function CalculationAccumulation() {
                     maxValue={10_000_000}
                     required={true}
                     {...field}
-                    ref={monthlyAmountInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[1] = element;
+                      }
+                    }}
                   >
                     매월 적립 금액 (₩)
                   </NumericFormItem>
@@ -224,7 +229,11 @@ export default function CalculationAccumulation() {
                     maxValue={50}
                     required={true}
                     {...field}
-                    ref={periodInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[2] = element;
+                      }
+                    }}
                   >
                     복리 기간 (년)
                   </NumericFormItem>
@@ -251,7 +260,11 @@ export default function CalculationAccumulation() {
                     maxValue={100}
                     required={true}
                     {...field}
-                    ref={rateInputRef}
+                    ref={(element) => {
+                      if (element) {
+                        inputRef.current[3] = element;
+                      }
+                    }}
                   >
                     수익률, 이자률 (%)
                   </NumericFormItem>
@@ -272,7 +285,6 @@ export default function CalculationAccumulation() {
                 variant={'outline'}
                 size="lg"
                 className="w-1/4 text-lg"
-                ref={scrollRef}
                 onClick={handleResetValue}
               >
                 초기화
