@@ -10,9 +10,9 @@ const COMPOUND_PERIOD = 'compound-period'; // 복리 기간
 const INTEREST_RATE = 'interest-rate'; // 이자율
 
 const defaultValues = {
-  initialAmount: 10000000,
+  initialAmount: 10_000_000,
   compoundPeriod: 10,
-  interestRate: 5,
+  interestRate: 10,
   monthlyAmount: 1_000_000,
 };
 

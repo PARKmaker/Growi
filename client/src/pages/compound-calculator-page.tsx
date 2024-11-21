@@ -23,6 +23,7 @@ export default function CompoundCalculatorPage() {
           <Card className="mx-auto w-full lg:w-[1066px]">
             <CalculationTable />
           </Card>
+          <Card className="mx-auto w-full lg:w-[1066px]"></Card>
         </section>
       </AmountDataListContextProvider>
     </Container>
