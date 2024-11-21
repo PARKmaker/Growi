@@ -38,7 +38,7 @@ import useLocalStorage from '@/hooks/use-local-storage.tsx';
 
 const { initialAmount, compoundPeriod, interestRate } = defaultValues;
 
-export default function CalculationBasis() {
+export default function CalculationBasic() {
   const { storedValue, setValue } = useLocalStorage<TBasicField>('defaultValueBasic', {
     [INITIAL_AMOUNT]: null,
     [COMPOUND_PERIOD]: null,

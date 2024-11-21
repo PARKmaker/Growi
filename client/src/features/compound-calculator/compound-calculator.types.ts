@@ -22,6 +22,8 @@ type TReturnCalculateBasic = {
   futureAmount: number;
   returnAmount: number;
   ratePercentage: number;
+  initialAmount: number;
+  isBasic: boolean;
 };
 
 type TReturnCalculateAccumulation = TReturnCalculateBasic & { yearAmount: number };

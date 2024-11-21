@@ -23,7 +23,7 @@ function makeButtonText(value: number, suffix: TSuffix) {
     case 'won':
       return `${value / 10000}만`;
     case 'percentage':
-      return `${value}만`;
+      return `${value}%`;
     case 'year':
       return `${value}년`;
     default:

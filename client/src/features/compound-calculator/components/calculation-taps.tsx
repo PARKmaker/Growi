@@ -5,7 +5,7 @@ import { ACCUMULATION, BASIS } from '@/features/compound-calculator/compound-cal
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.tsx';
 import {
   CalculationAccumulation,
-  CalculationBasis,
+  CalculationBasic,
 } from '@/features/compound-calculator/components/index.ts';
 
 export default function CalculationTaps() {
@@ -16,7 +16,7 @@ export default function CalculationTaps() {
         <TabsTrigger value={ACCUMULATION}>적립식</TabsTrigger>
       </TabsList>
       <TabsContent value={BASIS}>
-        <CalculationBasis />
+        <CalculationBasic />
       </TabsContent>
       <TabsContent value={ACCUMULATION}>
         <CalculationAccumulation />

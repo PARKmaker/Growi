@@ -1,5 +1,6 @@
 import Container from '@/components/container.tsx';
 import {
+  CalculationGraph,
   CalculationResult,
   CalculationTable,
   CalculationTaps,
@@ -23,7 +24,9 @@ export default function CompoundCalculatorPage() {
           <Card className="mx-auto w-full lg:w-[1066px]">
             <CalculationTable />
           </Card>
-          <Card className="mx-auto w-full lg:w-[1066px]"></Card>
+          <div className="mx-auto w-full lg:w-[1066px]">
+            <CalculationGraph />
+          </div>
         </section>
       </AmountDataListContextProvider>
     </Container>

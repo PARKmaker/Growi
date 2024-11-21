@@ -62,7 +62,7 @@ export function calculateCompoundInterestBasic(
     const returnAmount = roundUpByThousand(futureAmount - initialAmount);
     const ratePercentage = convertRateToPercentage(returnRate);
 
-    return { year, futureAmount, returnAmount, ratePercentage };
+    return { year, futureAmount, returnAmount, ratePercentage, initialAmount, isBasic: true };
   });
 
   return amounts;
@@ -99,6 +99,8 @@ export function calculateCompoundInterestAccumulation(
       returnAmount,
       futureAmount,
       yearAmount,
+      initialAmount,
+      isBasic: false,
     };
   });
 

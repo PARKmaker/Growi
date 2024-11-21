@@ -5,8 +5,7 @@ import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmoun
 export default function CalculationResult() {
   const { amountDataList } = useAmountDataList();
 
-  const { futureAmount, returnAmount, convertedReturnRate } =
-    amountDataList[amountDataList.length - 1];
+  const { futureAmount, returnAmount, ratePercentage } = amountDataList[amountDataList.length - 1];
 
   return (
     <Card>
@@ -33,7 +32,7 @@ export default function CalculationResult() {
           <CalculationResultItem
             className={'text-primary'}
             title={'수익율'}
-            amount={convertedReturnRate}
+            amount={ratePercentage}
             suffix={'%'}
           />
         </div>

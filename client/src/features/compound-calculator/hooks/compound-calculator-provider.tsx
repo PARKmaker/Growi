@@ -22,6 +22,8 @@ const initialAmountData: TReturnCalculateBasic | TReturnCalculateAccumulation = 
   returnAmount: 0,
   ratePercentage: 0,
   yearAmount: 0,
+  initialAmount: 0,
+  isBasic: true,
 };
 
 export function AmountDataListContextProvider({ children }: React.PropsWithChildren<object>) {
