@@ -37,13 +37,13 @@ const chartConfig = {
     label: '총금액',
     color: 'hsl(var(--chart-2))',
   },
-  initialAmount: {
-    label: '투자금액',
+  yearAmount: {
+    label: '추가금액',
     color: 'hsl(var(--chart-1))',
   },
-  yearAmount: {
-    label: '투자금액',
-    color: 'hsl(var(--chart-1))',
+  initialAmount: {
+    label: '초기금액',
+    color: 'hsl(var(--chart-5))',
   },
 } satisfies ChartConfig;
 
@@ -55,7 +55,7 @@ export default function CalculationGraph() {
     <Card>
       <CardHeader>
         <CardTitle>결과</CardTitle>
-        <CardDescription>n년동안의 복리 수익 결과입니다.</CardDescription>
+        <CardDescription>{lastAmountData.year}년동안의 복리 수익 결과입니다.</CardDescription>
       </CardHeader>
       <CardContent>
         {amountDataList.length > 0 && (
@@ -85,13 +85,24 @@ export default function CalculationGraph() {
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
               <Area
-                dataKey={isAccumulation ? 'yearAmount' : 'initialAmount'}
+                // dataKey={isAccumulation ? 'yearAmount' : 'initialAmount'}
+                dataKey={'initialAmount'}
                 type="natural"
                 fill="var(--color-initialAmount)"
                 fillOpacity={0.4}
                 stroke="var(--color-initialAmount)"
                 stackId="a"
               />
+              {isAccumulation && (
+                <Area
+                  dataKey={'yearAmount'}
+                  type="natural"
+                  fill="var(--color-yearAmount)"
+                  fillOpacity={0.4}
+                  stroke="var(--color-yearAmount)"
+                  stackId="a"
+                />
+              )}
               <Area
                 dataKey={'futureAmount'}
                 type="natural"

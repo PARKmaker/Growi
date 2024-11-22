@@ -144,7 +144,7 @@ export default function CalculationBasic() {
                 <div className={'space-y-2'}>
                   <NumericFormItem
                     hoverCardContent={'최초 투자시 투자금을 입력해주세요.\n(시작금액)'}
-                    hoverCardFooter={'최대 1억'}
+                    hoverCardFooter={'최소 10원, 최대 1억'}
                     suffix={'원'}
                     maxValue={100_000_000}
                     required={true}
@@ -177,7 +177,7 @@ export default function CalculationBasic() {
                     hoverCardContent={
                       '복리 효과를 누릴 기간입니다.\n투자 기간이라고 볼 수 있습니다.'
                     }
-                    hoverCardFooter={'최대 50년'}
+                    hoverCardFooter={'최소 1년, 최대 50년'}
                     suffix={'년'}
                     maxValue={50}
                     required={true}
@@ -208,9 +208,9 @@ export default function CalculationBasic() {
                 <div className={'space-y-2'}>
                   <NumericFormItem
                     hoverCardContent={'복리 기간동안 년간 수익률입니다.'}
-                    hoverCardFooter={'최대 100%'}
+                    hoverCardFooter={'최소 1%, 최대 50%'}
                     suffix={'%'}
-                    maxValue={100}
+                    maxValue={50}
                     required={true}
                     {...field}
                     ref={(element) => {
@@ -223,7 +223,7 @@ export default function CalculationBasic() {
                   </NumericFormItem>
                   <ValueButtons
                     suffix={'percentage'}
-                    maxValue={100}
+                    maxValue={50}
                     onFocusClick={() => handleInputFocus(INTEREST_RATE)}
                     field={field}
                     variation={compoundRateVariation}
