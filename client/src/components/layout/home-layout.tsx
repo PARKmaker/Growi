@@ -33,10 +33,9 @@ export default function HomeLayout() {
   }
 
   return (
-    <>
+    <div className="mx-auto w-full">
       <SiteHeader />
-      {/*Todo: 320px 이하일때 백그라운드 배경이 짤리는 문제*/}
-      <main ref={upButtonRef} className={'flex-1 bg-gray-100 dark:bg-gray-700'}>
+      <main ref={upButtonRef} className={'flex-1'}>
         <Outlet />
       </main>
       <SiteFooter />
@@ -49,6 +48,6 @@ export default function HomeLayout() {
           Up
         </button>
       ) : null}
-    </>
+    </div>
   );
 }

@@ -40,7 +40,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider defaultTheme={'system'} storageKey={'vite-ui-theme'}>
-      <div className={'relative flex min-h-screen flex-col bg-background'}>
+      <div
+        className={'relative flex min-h-screen min-w-[320px] flex-col bg-gray-100 dark:bg-gray-700'}
+      >
         <RouterProvider router={router} />
       </div>
     </ThemeProvider>
