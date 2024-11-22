@@ -4,8 +4,15 @@ import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmoun
 
 export default function CalculationResult() {
   const { amountDataList } = useAmountDataList();
+  const lastAmountData = amountDataList[amountDataList.length - 1];
 
-  const { futureAmount, returnAmount, ratePercentage } = amountDataList[amountDataList.length - 1];
+  const { futureAmount, returnAmount, ratePercentage, isBasic, initialAmount, year } =
+    lastAmountData;
+
+  let totalInvestmentAmount = initialAmount;
+  if (!isBasic && 'yearAmount' in lastAmountData) {
+    totalInvestmentAmount = initialAmount + lastAmountData.yearAmount;
+  }
 
   return (
     <Card>
@@ -27,13 +34,23 @@ export default function CalculationResult() {
             suffix={'원'}
           />
 
-          <CalculationResultItem title={'총 투자 금액'} amount={1000000} suffix={'원'} />
+          <CalculationResultItem
+            title={'총 투자 금액'}
+            amount={totalInvestmentAmount}
+            suffix={'원'}
+          />
 
           <CalculationResultItem
             className={'text-primary'}
             title={'수익율'}
             amount={ratePercentage}
             suffix={'%'}
+          />
+          <CalculationResultItem
+            className={'text-black'}
+            title={'투자 기간'}
+            amount={year}
+            suffix={'년'}
           />
         </div>
       </CardContent>

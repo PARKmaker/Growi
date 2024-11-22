@@ -3,9 +3,10 @@ import { Icons } from '@/components/icons.tsx';
 import { Link } from 'react-router-dom';
 import { cn } from '@/lib/utils.ts';
 import { buttonVariants } from '@/components/ui/button.tsx';
-import { ModeToggle } from '@/components/common/mode-toggle.tsx';
+// import { ModeToggle } from '@/components/common/mode-toggle.tsx';
 import MainNav from '@/components/site-header/main-nav.tsx';
 import MobileNav from '@/components/site-header/mobile-nav.tsx';
+import ModeSwitcher from '@/components/common/mode-switcher.tsx';
 
 export default function SiteHeader() {
   return (
@@ -41,7 +42,8 @@ export default function SiteHeader() {
                 <span className="sr-only">Twitter</span>
               </div>
             </Link>
-            <ModeToggle />
+            {/*<ModeToggle />*/}
+            <ModeSwitcher />
           </nav>
         </div>
       </div>
