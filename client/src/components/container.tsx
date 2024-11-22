@@ -5,8 +5,8 @@ type ContainerProps = {
 };
 export default function Container({ children }: ContainerProps) {
   return (
-    <div className="container relative">
-      <div className={'my-8'}>{children}</div>
+    <div className="container relative mx-auto my-4 min-w-[320px] px-0 sm:my-8 sm:px-4">
+      {children}
     </div>
   );
 }

@@ -19,9 +19,12 @@ const NumericFormItem = React.forwardRef<HTMLInputElement, NumericFormItemProps>
         <FormLabelWithInfo hoverCardContent={hoverCardContent} hoverCardFooter={hoverCardFooter}>
           {children}
         </FormLabelWithInfo>
-        <FormControl>
-          <NumericInput defaultValue={defaultValue} maxValue={maxValue} {...field} ref={ref} />
-        </FormControl>
+        <div className={'flex gap-2'}>
+          <FormControl>
+            <NumericInput defaultValue={defaultValue} maxValue={maxValue} {...field} ref={ref} />
+          </FormControl>
+        </div>
+
         <FormMessage />
       </FormItem>
     );

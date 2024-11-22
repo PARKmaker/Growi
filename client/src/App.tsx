@@ -1,7 +1,8 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ThemeProvider } from '@/context/theme-provider.tsx';
-import { HomeLayout, ToolsLayout } from '@/pages/layout';
-import { CompoundCalculatorPage, HomePage, ToolsPage } from '@/pages';
+
+import { CompoundCalculatorPage, HomePage, KakaoLoginPage, ToolsPage } from '@/pages';
+import { HomeLayout, ToolsLayout } from '@/components/layout';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,7 @@ const router = createBrowserRouter([
     errorElement: <div>Home Error</div>,
     children: [
       { index: true, element: <HomePage /> },
+      { path: 'login', element: <KakaoLoginPage /> },
       {
         path: 'tools',
         element: <ToolsLayout />,
@@ -38,7 +40,9 @@ const router = createBrowserRouter([
 function App() {
   return (
     <ThemeProvider defaultTheme={'system'} storageKey={'vite-ui-theme'}>
-      <div className={'relative flex min-h-screen flex-col bg-background'}>
+      <div
+        className={'relative flex min-h-screen min-w-[320px] flex-col bg-gray-100 dark:bg-gray-700'}
+      >
         <RouterProvider router={router} />
       </div>
     </ThemeProvider>
