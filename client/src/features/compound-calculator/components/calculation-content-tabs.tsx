@@ -8,7 +8,7 @@ import {
   CalculationBasic,
 } from '@/features/compound-calculator/components/index.ts';
 
-export default function CalculationTaps() {
+export default function CalculationContentTabs() {
   return (
     <Tabs defaultValue={BASIS}>
       <TabsList className={'grid w-full grid-cols-2 bg-gray-200 dark:bg-gray-600'}>

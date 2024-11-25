@@ -14,6 +14,29 @@ type NumericFormItemProps = ControllerRenderProps<FieldValues, string> &
  */
 const NumericFormItem = React.forwardRef<HTMLInputElement, NumericFormItemProps>(
   ({ children, hoverCardContent, hoverCardFooter, defaultValue, maxValue, ...field }, ref) => {
+    function handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
+      // 엔터시 다음 tab으로 포커스
+      if (event.key === 'Enter') {
+        event.preventDefault();
+
+        const focusableElements = Array.from(
+          document.querySelectorAll<HTMLElement>(
+            `input, button, select, textarea, [tabindex]:not([tabindex="-1"])`,
+          ),
+        ).filter(
+          (el) =>
+            !el.hasAttribute('disabled') && // Exclude disabled elements
+            el.offsetParent !== null && // Exclude hidden elements
+            el.tabIndex !== -1, // Exclude tabindex="-1" explicitly
+        );
+
+        const currentIndex = focusableElements.indexOf(event.currentTarget);
+        const nextElement = focusableElements[currentIndex + 1];
+
+        nextElement?.focus(); // Move focus to the next focusable element
+      }
+    }
+
     return (
       <FormItem>
         <FormLabelWithInfo hoverCardContent={hoverCardContent} hoverCardFooter={hoverCardFooter}>
@@ -21,7 +44,13 @@ const NumericFormItem = React.forwardRef<HTMLInputElement, NumericFormItemProps>
         </FormLabelWithInfo>
         <div className={'flex gap-2'}>
           <FormControl>
-            <NumericInput defaultValue={defaultValue} maxValue={maxValue} {...field} ref={ref} />
+            <NumericInput
+              onKeyDown={handleKeyDown}
+              defaultValue={defaultValue}
+              maxValue={maxValue}
+              {...field}
+              ref={ref}
+            />
           </FormControl>
         </div>
 

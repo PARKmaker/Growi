@@ -2,13 +2,13 @@ import CalculationTable from '@/features/compound-calculator/components/calculat
 import CalculationBasic from '@/features/compound-calculator/components/calculation-basic.tsx';
 import CalculationAccumulation from '@/features/compound-calculator/components/calculation-accumulation.tsx';
 import CalculationResult from '@/features/compound-calculator/components/calculation-result.tsx';
-import CalculationTaps from '@/features/compound-calculator/components/calculation-taps.tsx';
+import CalculationContentTaps from '@/features/compound-calculator/components/calculation-content-tabs.tsx';
 import CalculationGraph from '@/features/compound-calculator/components/calculation-graph.tsx';
 export {
   CalculationTable,
   CalculationBasic,
   CalculationResult,
   CalculationAccumulation,
-  CalculationTaps,
+  CalculationContentTaps,
   CalculationGraph,
 };
