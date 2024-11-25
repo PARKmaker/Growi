@@ -14,7 +14,7 @@ function LabelContent({ children, hoverCardContent, hoverCardFooter }: LabelCont
       <span>{children}</span>
 
       <HoverCard openDelay={50}>
-        <HoverCardTrigger asChild>
+        <HoverCardTrigger asChild tabIndex={-1}>
           <button type="button" className="inset-y-0 left-14 flex items-center pe-3">
             <svg
               xmlns="http://www.w3.org/2000/svg"

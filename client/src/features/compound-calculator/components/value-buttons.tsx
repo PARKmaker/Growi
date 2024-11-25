@@ -45,6 +45,7 @@ export default function ValueButtonsInner({
         return (
           <div className={'flex w-1/3 gap-1'} key={`variation-${value}`}>
             <Button
+              tabIndex={-1}
               className="hidden h-8 w-full sm:block"
               size={'sm'}
               variant={'secondary'}
@@ -59,6 +60,7 @@ export default function ValueButtonsInner({
               -{makeButtonText(value, suffix)}
             </Button>
             <Button
+              tabIndex={-1}
               className="h-8 w-full"
               size={'sm'}
               variant={'secondary'}
