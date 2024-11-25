@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx';
-import { Button } from '@/components/ui/button.tsx';
 import { Form, FormField } from '@/components/ui/form.tsx';
 import NumericFormItem from '@/components/numeric-form-item.tsx';
 
@@ -102,14 +101,6 @@ export default function CalculationBasic() {
     const amounts = calculateCompoundInterestBasic(initial, period, rate);
 
     setAmountDataList(amounts);
-  }
-
-  const scrollRef = useRef<HTMLButtonElement>(null);
-
-  function handleScrollToTable() {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
   }
 
   function handleValueReset() {
@@ -232,27 +223,7 @@ export default function CalculationBasic() {
                 </div>
               )}
             />
-            {/*<CalculationButtonContainer onReset={handleValueReset} />*/}
-            {/*<div className="flex gap-4">*/}
-            {/*  <Button*/}
-            {/*    type={'submit'}*/}
-            {/*    size="lg"*/}
-            {/*    className="w-3/4 text-lg font-semibold"*/}
-            {/*    ref={scrollRef}*/}
-            {/*    onClick={handleScrollToTable}*/}
-            {/*  >*/}
-            {/*    계산하기*/}
-            {/*  </Button>*/}
-            {/*  <Button*/}
-            {/*    type={'button'}*/}
-            {/*    variant={'outline'}*/}
-            {/*    size="lg"*/}
-            {/*    className="w-1/4 text-lg"*/}
-            {/*    onClick={handleValueReset}*/}
-            {/*  >*/}
-            {/*    초기화*/}
-            {/*  </Button>*/}
-            {/*</div>*/}
+            <CalculationButtonContainer onReset={handleValueReset} />
           </form>
         </Form>
       </CardContent>

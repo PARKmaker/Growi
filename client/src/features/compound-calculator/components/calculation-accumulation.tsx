@@ -12,7 +12,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card.tsx';
-import { Button } from '@/components/ui/button.tsx';
 import { Form, FormField } from '@/components/ui/form.tsx';
 import NumericFormItem from '@/components/numeric-form-item.tsx';
 
@@ -37,6 +36,7 @@ import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 import useLocalStorage from '@/hooks/use-local-storage.tsx';
+import CalculationButtonContainer from '@/features/compound-calculator/components/calculation-button-container.tsx';
 
 const { initialAmount, compoundPeriod, interestRate, monthlyAmount } = defaultValues;
 
@@ -109,15 +109,7 @@ export default function CalculationAccumulation() {
     setValue(values);
   }
 
-  const scrollRef = useRef<HTMLButtonElement>(null);
-
-  function handleScrollToTable() {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-
-  function handleResetValue() {
+  function handleValueReset() {
     form.reset({
       [INITIAL_AMOUNT]: initialAmount,
       [COMPOUND_PERIOD]: compoundPeriod,
@@ -278,27 +270,7 @@ export default function CalculationAccumulation() {
                 </div>
               )}
             />
-
-            <div className="flex gap-4">
-              <Button
-                type={'button'}
-                variant={'outline'}
-                size="lg"
-                className="w-1/4 text-lg"
-                onClick={handleResetValue}
-              >
-                초기화
-              </Button>
-              <Button
-                type={'submit'}
-                size="lg"
-                className="w-3/4 text-lg font-semibold"
-                ref={scrollRef}
-                onClick={handleScrollToTable}
-              >
-                계산하기
-              </Button>
-            </div>
+            <CalculationButtonContainer onReset={handleValueReset} />
           </form>
         </Form>
       </CardContent>
