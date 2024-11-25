@@ -35,6 +35,7 @@ import { useEffect, useRef } from 'react';
 import { TCalculateConst } from '@/features/compound-calculator/compound-calculator.types.ts';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 import useLocalStorage from '@/hooks/use-local-storage.tsx';
+import CalculationButtonContainer from '@/features/compound-calculator/components/calculation-button-container.tsx';
 
 const { initialAmount, compoundPeriod, interestRate } = defaultValues;
 
@@ -111,7 +112,7 @@ export default function CalculationBasic() {
     }
   }
 
-  function handleResetValue() {
+  function handleValueReset() {
     form.reset({
       [INITIAL_AMOUNT]: initialAmount,
       [COMPOUND_PERIOD]: compoundPeriod,
@@ -231,27 +232,27 @@ export default function CalculationBasic() {
                 </div>
               )}
             />
-
-            <div className="flex gap-4">
-              <Button
-                type={'button'}
-                variant={'outline'}
-                size="lg"
-                className="w-1/4 text-lg"
-                onClick={handleResetValue}
-              >
-                초기화
-              </Button>
-              <Button
-                type={'submit'}
-                size="lg"
-                className="w-3/4 text-lg font-semibold"
-                ref={scrollRef}
-                onClick={handleScrollToTable}
-              >
-                계산하기
-              </Button>
-            </div>
+            {/*<CalculationButtonContainer onReset={handleValueReset} />*/}
+            {/*<div className="flex gap-4">*/}
+            {/*  <Button*/}
+            {/*    type={'submit'}*/}
+            {/*    size="lg"*/}
+            {/*    className="w-3/4 text-lg font-semibold"*/}
+            {/*    ref={scrollRef}*/}
+            {/*    onClick={handleScrollToTable}*/}
+            {/*  >*/}
+            {/*    계산하기*/}
+            {/*  </Button>*/}
+            {/*  <Button*/}
+            {/*    type={'button'}*/}
+            {/*    variant={'outline'}*/}
+            {/*    size="lg"*/}
+            {/*    className="w-1/4 text-lg"*/}
+            {/*    onClick={handleValueReset}*/}
+            {/*  >*/}
+            {/*    초기화*/}
+            {/*  </Button>*/}
+            {/*</div>*/}
           </form>
         </Form>
       </CardContent>
