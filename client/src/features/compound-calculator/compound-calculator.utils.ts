@@ -39,6 +39,13 @@ export function getNumber(value: string) {
 
 function roundUpByThousand(amount: number) {
   // 만 단위 반올림 함수
+  
+  if(amount < 10_000){
+    // 만원 미만이면 소수점 반올림
+    return Math.round(amount)
+  }
+  
+  // 만원 이상이면 만원 단위에서 반올림
   return Math.round(amount / 10_000) * 10_000;
 }
 

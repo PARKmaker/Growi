@@ -19,7 +19,7 @@ export default function CalculationResultItem({
     <div className={'relative flex flex-col'}>
       <span className={'text-sm text-muted-foreground'}>{title}</span>
       <div className={cn('break-words text-2xl font-semibold', className)}>
-        {formatCurrencyCompact(amount).slice(1)}
+        {formatCurrencyCompact(amount)}
         {suffix}
       </div>
       <NumericFormat
