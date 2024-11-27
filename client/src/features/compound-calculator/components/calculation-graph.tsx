@@ -33,6 +33,7 @@ import {
 } from '@/components/ui/chart';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
 import { formatCurrency, formatKoreanWon } from '@/lib/format.ts';
+import ImageDownloadButton from '@/features/compound-calculator/components/image-download-button.tsx';
 
 const chartConfig = {
   futureAmount: {
@@ -54,96 +55,109 @@ export default function CalculationGraph() {
   const lastAmountData = amountDataList[amountDataList.length - 1];
   const isAccumulation = !lastAmountData.isBasic;
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>결과 그래프</CardTitle>
-        <CardDescription>{lastAmountData.year}년동안의 복리 수익 결과입니다.</CardDescription>
-      </CardHeader>
-      <CardContent>
-        {amountDataList.length > 0 && (
-          <ChartContainer config={chartConfig}>
-            <AreaChart
-              accessibilityLayer
-              data={amountDataList}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="year"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => {
-                  return `${value}년`;
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => {
-                  return `${formatKoreanWon(value)}`;
-                }}
-              />
-              <ChartTooltip
-                cursor={false}
-                content={
-                  <ChartTooltipContent
-                    separator="z"
-                    indicator="dot"
-                    labelFormatter={(label) => {
-                      return `${label}년`;
+    <>
+      <Card>
+        <div id="download-graph">
+          <CardHeader>
+            <CardTitle>결과 그래프</CardTitle>
+            <CardDescription>{lastAmountData.year}년동안의 복리 수익 결과입니다.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            {amountDataList.length > 0 && (
+              <ChartContainer config={chartConfig}>
+                <AreaChart
+                  accessibilityLayer
+                  data={amountDataList}
+                  margin={{
+                    left: 12,
+                    right: 12,
+                  }}
+                >
+                  <CartesianGrid vertical={false} />
+                  <XAxis
+                    dataKey="year"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => {
+                      return `${value}년`;
                     }}
                   />
-                }
-              />
-              <Area
-                dataKey={'initialAmount'}
-                type="natural"
-                fill="var(--color-initialAmount)"
-                fillOpacity={0.4}
-                stroke="var(--color-initialAmount)"
-                stackId="a"
-              />
-              {isAccumulation && (
-                <Area
-                  dataKey={'yearAmount'}
-                  type="natural"
-                  fill="var(--color-yearAmount)"
-                  fillOpacity={0.4}
-                  stroke="var(--color-yearAmount)"
-                  stackId="a"
-                />
-              )}
-              <Area
-                dataKey={'futureAmount'}
-                type="natural"
-                fill="var(--color-futureAmount)"
-                fillOpacity={0.4}
-                stroke="var(--color-futureAmount)"
-                stackId="a"
-              />
-              <ChartLegend content={<ChartLegendContent />} />
-            </AreaChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-      <CardFooter>
-        <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              {lastAmountData.year}년의 총 수익 {formatCurrency(lastAmountData.ratePercentage)}%
-              <TrendingUp className="h-4 w-4" />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    tickFormatter={(value) => {
+                      return `${formatKoreanWon(value)}`;
+                    }}
+                  />
+                  <ChartTooltip
+                    cursor={false}
+                    content={
+                      <ChartTooltipContent
+                        separator="z"
+                        indicator="dot"
+                        labelFormatter={(label) => {
+                          return `${label}년`;
+                        }}
+                      />
+                    }
+                  />
+                  <Area
+                    dataKey={'initialAmount'}
+                    type="natural"
+                    fill="var(--color-initialAmount)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-initialAmount)"
+                    stackId="a"
+                  />
+                  {isAccumulation && (
+                    <Area
+                      dataKey={'yearAmount'}
+                      type="natural"
+                      fill="var(--color-yearAmount)"
+                      fillOpacity={0.4}
+                      stroke="var(--color-yearAmount)"
+                      stackId="a"
+                    />
+                  )}
+                  <Area
+                    dataKey={'futureAmount'}
+                    type="natural"
+                    fill="var(--color-futureAmount)"
+                    fillOpacity={0.4}
+                    stroke="var(--color-futureAmount)"
+                    stackId="a"
+                  />
+                  <ChartLegend content={<ChartLegendContent />} />
+                </AreaChart>
+              </ChartContainer>
+            )}
+          </CardContent>
+          <CardFooter>
+            <div className="flex w-full items-start gap-2 text-sm">
+              <div className="grid gap-2">
+                <div className="flex items-center gap-2 font-medium leading-none">
+                  최종 금액
+                  <span className="text-primary">
+                    {formatKoreanWon(lastAmountData.futureAmount)}원
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 font-medium leading-none">
+                  {lastAmountData.year}년의 총 수익률
+                  <span className="text-primary">
+                    {formatCurrency(lastAmountData.ratePercentage)}%
+                  </span>
+                  <TrendingUp className="h-4 w-4" />
+                </div>
+              </div>
             </div>
-            {/*<div className="flex items-center gap-2 leading-none text-muted-foreground">*/}
-            {/*  January - June 2024*/}
-            {/*</div>*/}
-          </div>
+          </CardFooter>
         </div>
-      </CardFooter>
-    </Card>
+        <div className="flex justify-end p-4 pt-0">
+          <ImageDownloadButton fileName="그래프" id={'download-graph'} />
+        </div>
+      </Card>
+    </>
   );
 }
