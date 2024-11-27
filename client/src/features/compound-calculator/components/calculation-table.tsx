@@ -53,7 +53,7 @@ export default function CalculationTable() {
           ))}
         </TableBody>
       </Table>
-      <div className="flex justify-end p-4">
+      <div className="hidden justify-end p-4 sm:flex">
         <ImageDownloadButton fileName="표" id={'download-table'} />
       </div>
     </>

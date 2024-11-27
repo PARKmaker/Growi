@@ -154,7 +154,7 @@ export default function CalculationGraph() {
             </div>
           </CardFooter>
         </div>
-        <div className="flex justify-end p-4 pt-0">
+        <div className="hidden justify-end p-4 pt-0 sm:flex">
           <ImageDownloadButton fileName="그래프" id={'download-graph'} />
         </div>
       </Card>
