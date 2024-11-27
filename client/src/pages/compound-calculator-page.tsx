@@ -3,7 +3,7 @@ import {
   CalculationGraph,
   CalculationResult,
   CalculationTable,
-  CalculationTaps,
+  CalculationContentTaps,
 } from '@/features/compound-calculator/components';
 import { Card } from '@/components/ui/card.tsx';
 import { AmountDataListContextProvider } from '@/features/compound-calculator/hooks/compound-calculator-provider.tsx';
@@ -15,7 +15,7 @@ export default function CompoundCalculatorPage() {
         <section className={'flex flex-col gap-4'}>
           <div className="flex flex-col justify-center gap-4 lg:flex-row">
             <div className="lg:w-[700px]">
-              <CalculationTaps />
+              <CalculationContentTaps />
             </div>
             <div className="lg:w-[350px]">
               <CalculationResult />
