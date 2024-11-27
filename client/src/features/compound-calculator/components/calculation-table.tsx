@@ -19,10 +19,10 @@ export default function CalculationTable() {
       <TableHeader>
         <TableRow>
           <TableHead className="w-[30px] border-r">년</TableHead>
-          <TableHead className="min-w-[150px] border-r text-center">총 금액</TableHead>
-          <TableHead className="min-w-[150px] border-r text-center">수익금</TableHead>
+          <TableHead className="min-w-[150px] border-r text-center">최종 금액</TableHead>
+          <TableHead className="min-w-[150px] border-r text-center">수익</TableHead>
           {isAccumulation ? (
-            <TableHead className="min-w-[150px] border-r text-center">총 투자금</TableHead>
+            <TableHead className="min-w-[150px] border-r text-center">투자 금액</TableHead>
           ) : null}
           <TableHead className="w-[100px] text-center">수익률</TableHead>
         </TableRow>
