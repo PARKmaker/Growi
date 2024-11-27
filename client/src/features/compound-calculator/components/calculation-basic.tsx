@@ -36,7 +36,6 @@ import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmoun
 import useLocalStorage from '@/hooks/use-local-storage.tsx';
 import CalculationButtonContainer from '@/features/compound-calculator/components/calculation-button-container.tsx';
 
-const { initialAmount, compoundPeriod, interestRate } = defaultValues;
 
 export default function CalculationBasic() {
   const { storedValue, setValue } = useLocalStorage<TBasicField>('defaultValueBasic', {
@@ -50,9 +49,9 @@ export default function CalculationBasic() {
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
-      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || initialAmount,
-      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || compoundPeriod,
-      [INTEREST_RATE]: storedValue[INTEREST_RATE] || interestRate,
+      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || defaultValues.initialAmount,
+      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || defaultValues.compoundPeriod,
+      [INTEREST_RATE]: storedValue[INTEREST_RATE] || defaultValues.interestRate,
     },
   });
 
@@ -83,9 +82,9 @@ export default function CalculationBasic() {
     // 첫 렌더링때 기본값으로 초기화
 
     const amounts = calculateCompoundInterestBasic(
-      storedValue[INITIAL_AMOUNT] || initialAmount,
-      storedValue[COMPOUND_PERIOD] || compoundPeriod,
-      storedValue[INTEREST_RATE] || interestRate,
+      storedValue[INITIAL_AMOUNT] || defaultValues.initialAmount,
+      storedValue[COMPOUND_PERIOD] || defaultValues.compoundPeriod,
+      storedValue[INTEREST_RATE] || defaultValues.interestRate,
     );
 
     setAmountDataList(amounts);
@@ -94,22 +93,22 @@ export default function CalculationBasic() {
   function onSubmit(values: TBasicField) {
     setValue(values);
 
-    const initial = values[INITIAL_AMOUNT] as number;
-    const period = values[COMPOUND_PERIOD] as number;
-    const rate = values[INTEREST_RATE] as number;
+    const mInitial = values[INITIAL_AMOUNT] as number;
+    const mPeriod = values[COMPOUND_PERIOD] as number;
+    const mRate = values[INTEREST_RATE] as number;
 
-    const amounts = calculateCompoundInterestBasic(initial, period, rate);
+    const amounts = calculateCompoundInterestBasic(mInitial, mPeriod, mRate);
 
     setAmountDataList(amounts);
   }
 
   function handleValueReset() {
     form.reset({
-      [INITIAL_AMOUNT]: initialAmount,
-      [COMPOUND_PERIOD]: compoundPeriod,
-      [INTEREST_RATE]: interestRate,
+      [INITIAL_AMOUNT]: defaultValues.initialAmount,
+      [COMPOUND_PERIOD]: defaultValues.compoundPeriod,
+      [INTEREST_RATE]: defaultValues.interestRate,
     });
-    const amounts = calculateCompoundInterestBasic(initialAmount, compoundPeriod, interestRate);
+    const amounts = calculateCompoundInterestBasic(defaultValues.initialAmount, defaultValues.compoundPeriod, defaultValues.interestRate);
 
     setAmountDataList(amounts);
     setValue({
