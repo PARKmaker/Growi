@@ -38,7 +38,6 @@ import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmoun
 import useLocalStorage from '@/hooks/use-local-storage.tsx';
 import CalculationButtonContainer from '@/features/compound-calculator/components/calculation-button-container.tsx';
 
-const { initialAmount, compoundPeriod, interestRate, monthlyAmount } = defaultValues;
 
 export default function CalculationAccumulation() {
   const { storedValue, setValue } = useLocalStorage<TAccumulationField>('defaultValueAcc', {
@@ -53,10 +52,10 @@ export default function CalculationAccumulation() {
     // 첫 렌더링시에는 "년", "원", "%" 포함이 안되어있지만
     // 값을 입력하면 생김 주의
     defaultValues: {
-      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || initialAmount,
-      [MONTHLY_AMOUNT]: storedValue[MONTHLY_AMOUNT] || monthlyAmount,
-      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || compoundPeriod,
-      [INTEREST_RATE]: storedValue[INTEREST_RATE] || interestRate,
+      [INITIAL_AMOUNT]: storedValue[INITIAL_AMOUNT] || defaultValues.initialAmount,
+      [MONTHLY_AMOUNT]: storedValue[MONTHLY_AMOUNT] || defaultValues.monthlyAmount,
+      [COMPOUND_PERIOD]: storedValue[COMPOUND_PERIOD] || defaultValues.compoundPeriod,
+      [INTEREST_RATE]: storedValue[INTEREST_RATE] || defaultValues.interestRate,
     },
   });
 
@@ -89,39 +88,39 @@ export default function CalculationAccumulation() {
   useEffect(() => {
     // 첫 렌더링때 기본값으로 초기화
     const amounts = calculateCompoundInterestAccumulation(
-      storedValue[INITIAL_AMOUNT] || initialAmount,
-      storedValue[COMPOUND_PERIOD] || compoundPeriod,
-      storedValue[INTEREST_RATE] || interestRate,
-      storedValue[MONTHLY_AMOUNT] || monthlyAmount,
+      storedValue[INITIAL_AMOUNT] || defaultValues.initialAmount,
+      storedValue[COMPOUND_PERIOD] || defaultValues.compoundPeriod,
+      storedValue[INTEREST_RATE] || defaultValues.interestRate,
+      storedValue[MONTHLY_AMOUNT] || defaultValues.monthlyAmount,
     );
 
     setAmountDataList(amounts);
   }, []);
 
   function onSubmit(values: TAccumulationField) {
-    const initial = values[INITIAL_AMOUNT] as number;
-    const period = values[COMPOUND_PERIOD] as number;
-    const rate = values[INTEREST_RATE] as number;
-    const monthlyAmount = values[MONTHLY_AMOUNT] as number;
-    const amounts = calculateCompoundInterestAccumulation(initial, period, rate, monthlyAmount);
+    const mInitial = values[INITIAL_AMOUNT] as number;
+    const mPeriod = values[COMPOUND_PERIOD] as number;
+    const mRate = values[INTEREST_RATE] as number;
+    const mMonthlyAmount = values[MONTHLY_AMOUNT] as number;
+    const mAmounts = calculateCompoundInterestAccumulation(mInitial, mPeriod, mRate, mMonthlyAmount);
 
-    setAmountDataList(amounts);
+    setAmountDataList(mAmounts);
     setValue(values);
   }
 
   function handleValueReset() {
     form.reset({
-      [INITIAL_AMOUNT]: initialAmount,
-      [COMPOUND_PERIOD]: compoundPeriod,
-      [INTEREST_RATE]: interestRate,
-      [MONTHLY_AMOUNT]: monthlyAmount,
+      [INITIAL_AMOUNT]: defaultValues.initialAmount,
+      [COMPOUND_PERIOD]: defaultValues.compoundPeriod,
+      [INTEREST_RATE]: defaultValues.interestRate,
+      [MONTHLY_AMOUNT]: defaultValues.monthlyAmount,
     });
 
     const amounts = calculateCompoundInterestAccumulation(
-      initialAmount,
-      compoundPeriod,
-      interestRate,
-      monthlyAmount,
+      defaultValues.initialAmount,
+      defaultValues.compoundPeriod,
+      defaultValues.interestRate,
+      defaultValues.monthlyAmount,
     );
 
     setAmountDataList(amounts);
