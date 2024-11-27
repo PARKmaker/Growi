@@ -4,14 +4,14 @@ import { formatKoreanWon } from '@/lib/format.ts';
 
 type CalculationResultProps = {
   title: string;
-  amount: number;
+  value: number | string;
   suffix: string;
   className?: string;
 };
 
 export default function CalculationResultItem({
   title,
-  amount,
+  value,
   suffix,
   className = '',
 }: CalculationResultProps) {
@@ -19,11 +19,11 @@ export default function CalculationResultItem({
     <div className={'relative flex flex-col'}>
       <span className={'text-sm text-muted-foreground'}>{title}</span>
       <div className={cn('break-words text-2xl font-semibold', className)}>
-        {formatKoreanWon(amount)}
+        {typeof value === 'string' ? value : formatKoreanWon(value)}
         {suffix}
       </div>
       <NumericFormat
-        value={amount}
+        value={value}
         thousandSeparator={true}
         displayType={'text'}
         suffix={suffix}

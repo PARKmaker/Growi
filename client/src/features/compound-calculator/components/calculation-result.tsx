@@ -24,25 +24,25 @@ export default function CalculationResult() {
           <CalculationResultItem
             className={'text-primary'}
             title={'최종 금액'}
-            amount={futureAmount}
+            value={futureAmount}
             suffix={'원'}
           />
           <CalculationResultItem
             className={'text-amber-600'}
             title={'수익'}
-            amount={returnAmount}
+            value={returnAmount}
             suffix={'원'}
           />
 
-          <CalculationResultItem title={'투자 금액'} amount={totalInvestmentAmount} suffix={'원'} />
+          <CalculationResultItem title={'투자 금액'} value={totalInvestmentAmount} suffix={'원'} />
 
           <CalculationResultItem
             className={'text-primary'}
             title={'수익률'}
-            amount={ratePercentage}
+            value={ratePercentage}
             suffix={'%'}
           />
-          <CalculationResultItem title={'투자 기간'} amount={year} suffix={'년'} />
+          <CalculationResultItem title={'투자 기간'} value={year} suffix={'년'} />
         </div>
       </CardContent>
     </Card>
