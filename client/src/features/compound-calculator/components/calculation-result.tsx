@@ -29,29 +29,20 @@ export default function CalculationResult() {
           />
           <CalculationResultItem
             className={'text-amber-600'}
-            title={'총 투자 수익'}
+            title={'수익'}
             amount={returnAmount}
             suffix={'원'}
           />
 
-          <CalculationResultItem
-            title={'총 투자 금액'}
-            amount={totalInvestmentAmount}
-            suffix={'원'}
-          />
+          <CalculationResultItem title={'투자 금액'} amount={totalInvestmentAmount} suffix={'원'} />
 
           <CalculationResultItem
             className={'text-primary'}
-            title={'수익율'}
+            title={'수익률'}
             amount={ratePercentage}
             suffix={'%'}
           />
-          <CalculationResultItem
-            className={'text-black'}
-            title={'투자 기간'}
-            amount={year}
-            suffix={'년'}
-          />
+          <CalculationResultItem title={'투자 기간'} amount={year} suffix={'년'} />
         </div>
       </CardContent>
     </Card>

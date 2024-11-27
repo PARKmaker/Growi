@@ -18,7 +18,7 @@ type TCalculateConst =
   | typeof MONTHLY_AMOUNT;
 
 type TReturnCalculateBasic = {
-  year: number;
+  year: string;
   futureAmount: number;
   returnAmount: number;
   ratePercentage: number;

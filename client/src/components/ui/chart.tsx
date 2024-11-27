@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as RechartsPrimitive from 'recharts';
 
 import { cn } from '@/lib/utils';
+import { formatKoreanWon } from '@/lib/format.ts';
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: '', dark: '.dark' } as const;
@@ -155,6 +156,8 @@ const ChartTooltipContent = React.forwardRef<
 
     const nestLabel = payload.length === 1 && indicator !== 'dot';
 
+    // 최종금액을 맨위로 두기위해 reverse
+    const reveredPayload = [...payload].reverse();
     return (
       <div
         ref={ref}
@@ -165,7 +168,7 @@ const ChartTooltipContent = React.forwardRef<
       >
         {!nestLabel ? tooltipLabel : null}
         <div className="grid gap-1.5">
-          {payload.map((item, index) => {
+          {reveredPayload.map((item, index) => {
             const key = `${nameKey || item.name || item.dataKey || 'value'}`;
             const itemConfig = getPayloadConfigFromPayload(config, item, key);
             const indicatorColor = color || item.payload.fill || item.color;
@@ -214,15 +217,15 @@ const ChartTooltipContent = React.forwardRef<
                     >
                       <div className="grid gap-1.5">
                         {nestLabel ? tooltipLabel : null}
-                        {/*툴팁 값 형식 수정*/}
                         <span className="mr-0.5 text-muted-foreground">
+                          {/*툴팁 값 형식 수정*/}
                           {`${itemConfig?.label || item.name} :`}
                         </span>
                       </div>
                       {item.value && (
                         <span className="font-mono font-medium tabular-nums text-foreground">
                           {/*{item.value.toLocaleString()}*/}
-                          {`${item.value.toLocaleString()}원`}
+                          {`${!isNaN(Number(item.value)) ? formatKoreanWon(Number(item.value)) : item.value.toLocaleString()}원`}
                         </span>
                       )}
                     </div>

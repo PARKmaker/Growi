@@ -26,23 +26,25 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
-import { formatCurrency, formatCurrencyCompact } from '@/lib/format.ts';
+import { formatCurrency, formatKoreanWon } from '@/lib/format.ts';
 
 const chartConfig = {
   futureAmount: {
-    label: '총금액',
+    label: '최종 금액',
     color: 'hsl(var(--chart-2))',
   },
   yearAmount: {
-    label: '추가금액',
+    label: '투자 금액',
     color: 'hsl(var(--chart-1))',
   },
   initialAmount: {
-    label: '초기금액',
+    label: '초기 금액',
     color: 'hsl(var(--chart-5))',
   },
 } satisfies ChartConfig;
@@ -54,7 +56,7 @@ export default function CalculationGraph() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>결과</CardTitle>
+        <CardTitle>결과 그래프</CardTitle>
         <CardDescription>{lastAmountData.year}년동안의 복리 수익 결과입니다.</CardDescription>
       </CardHeader>
       <CardContent>
@@ -79,13 +81,26 @@ export default function CalculationGraph() {
                 }}
               />
               <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
                 tickFormatter={(value) => {
-                  return `${formatCurrencyCompact(value)}`;
+                  return `${formatKoreanWon(value)}`;
                 }}
               />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  <ChartTooltipContent
+                    separator="z"
+                    indicator="dot"
+                    labelFormatter={(label) => {
+                      return `${label}년`;
+                    }}
+                  />
+                }
+              />
               <Area
-                // dataKey={isAccumulation ? 'yearAmount' : 'initialAmount'}
                 dataKey={'initialAmount'}
                 type="natural"
                 fill="var(--color-initialAmount)"
@@ -111,6 +126,7 @@ export default function CalculationGraph() {
                 stroke="var(--color-futureAmount)"
                 stackId="a"
               />
+              <ChartLegend content={<ChartLegendContent />} />
             </AreaChart>
           </ChartContainer>
         )}
@@ -122,9 +138,9 @@ export default function CalculationGraph() {
               {lastAmountData.year}년의 총 수익 {formatCurrency(lastAmountData.ratePercentage)}%
               <TrendingUp className="h-4 w-4" />
             </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              January - June 2024
-            </div>
+            {/*<div className="flex items-center gap-2 leading-none text-muted-foreground">*/}
+            {/*  January - June 2024*/}
+            {/*</div>*/}
           </div>
         </div>
       </CardFooter>
