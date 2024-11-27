@@ -30,7 +30,7 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { useAmountDataList } from '@/features/compound-calculator/hooks/useAmountDataList.tsx';
-import { formatCurrency, formatCurrencyCompact } from '@/lib/format.ts';
+import { formatKoreanWon } from '@/lib/format.ts';
 
 const chartConfig = {
   futureAmount: {
@@ -80,7 +80,7 @@ export default function CalculationGraph() {
               />
               <YAxis
                 tickFormatter={(value) => {
-                  return `${formatCurrencyCompact(value)}`;
+                  return `${formatKoreanWon(value)}`;
                 }}
               />
               <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
@@ -119,7 +119,7 @@ export default function CalculationGraph() {
         <div className="flex w-full items-start gap-2 text-sm">
           <div className="grid gap-2">
             <div className="flex items-center gap-2 font-medium leading-none">
-              {lastAmountData.year}년의 총 수익 {formatCurrency(lastAmountData.ratePercentage)}%
+              {lastAmountData.year}년의 총 수익 {formatKoreanWon(lastAmountData.ratePercentage)}%
               <TrendingUp className="h-4 w-4" />
             </div>
             <div className="flex items-center gap-2 leading-none text-muted-foreground">

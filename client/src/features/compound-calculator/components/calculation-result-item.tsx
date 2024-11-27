@@ -1,6 +1,6 @@
 import { NumericFormat } from 'react-number-format';
 import { cn } from '@/lib/utils.ts';
-import { formatCurrencyCompact } from '@/lib/format.ts';
+import { formatKoreanWon } from '@/lib/format.ts';
 
 type CalculationResultProps = {
   title: string;
@@ -19,7 +19,7 @@ export default function CalculationResultItem({
     <div className={'relative flex flex-col'}>
       <span className={'text-sm text-muted-foreground'}>{title}</span>
       <div className={cn('break-words text-2xl font-semibold', className)}>
-        {formatCurrencyCompact(amount)}
+        {formatKoreanWon(amount)}
         {suffix}
       </div>
       <NumericFormat
