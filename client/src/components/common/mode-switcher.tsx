@@ -15,8 +15,8 @@ export default function ModeSwitcher() {
 
   return (
     <Button variant="ghost" className="group/toggle w-9 px-0" onClick={toggleTheme}>
-      <Sun className="hidden [html.dark_&]:block" />
-      <Moon className="hidden [html.light_&]:block" />
+      <Sun width={20} height={20} className="hidden [html.dark_&]:block" />
+      <Moon width={20} height={20} className="hidden [html.light_&]:block" />
       <span className="sr-only">Toggle theme</span>
     </Button>
   );
